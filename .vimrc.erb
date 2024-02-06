@@ -4,6 +4,9 @@ set nocompatible
 " no swap files
 set noswapfile
 
+" Use system clipboard
+set clipboard=unnamed
+
 " fuzzy find fzf
 nnoremap ff :FZF<CR>
 
