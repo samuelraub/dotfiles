@@ -171,3 +171,7 @@ if [ -f '/Users/samuelraub/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/samu
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/samuelraub/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/samuelraub/google-cloud-sdk/completion.zsh.inc'; fi
 
+
+
+source /Users/samuelraub/.config/op/plugins.sh
+
