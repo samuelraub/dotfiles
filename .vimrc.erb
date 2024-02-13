@@ -103,11 +103,6 @@ set listchars=tab:▸\ ,eol:¬
 " Or use your leader key + l to toggle on/off
 map <leader>l :set list!<CR> " Toggle tabs and EOL
 
-" Color scheme (terminal)
-set t_Co=256
-set background=dark
-colorscheme onedark
-
 " Plugins
 let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
 if empty(glob(data_dir . '/autoload/plug.vim'))
@@ -122,5 +117,11 @@ call plug#begin()
   Plug 'tpope/vim-commentary'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'joshdick/onedark.vim'
 call plug#end()
+
+" Color scheme (terminal)
+set t_Co=256
+set background=dark
+colorscheme onedark
 
