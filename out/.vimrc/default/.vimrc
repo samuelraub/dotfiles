@@ -13,7 +13,9 @@ nnoremap ff :FZF<CR>
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
 
-" TODO: Load plugins here (pathogen or vundle)
+" Jump to new split
+set splitbelow
+set splitright
 
 " Turn on syntax highlighting
 syntax on
