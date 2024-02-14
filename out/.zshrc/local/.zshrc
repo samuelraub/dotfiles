@@ -5,7 +5,11 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # FZF
-export FZF_DEFAULT_COMMAND='fd --hidden'
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+
+
+
 
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
