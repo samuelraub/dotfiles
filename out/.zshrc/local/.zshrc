@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 # FZF
 
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_DEFAULT_COMMAND='rg --files --hidden'
 
 
 
