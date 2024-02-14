@@ -109,11 +109,11 @@ export EDITOR='vim'
 # For a full list of active aliases, run `alias`.
 
 alias src="source ~/.zshrc"
-alias zrc="vim ~/.zshrc"
+alias vrc="vim ~/dev/template_dotfiles/.vimrc.erb"
+alias zrc="vim ~/dev/template_dotfiles/.zshrc.erb"
 alias c="clear"
 alias o="open"
 alias dev="cd ~/dev"
-alias vrc="vim ~/.vimrc"
 alias kc="kubectl"
 alias dops="docker ps -a"
 alias dopss='docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
