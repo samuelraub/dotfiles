@@ -15,7 +15,3 @@ map <C-n> <A-n>
 map <C-x> <A-x>
 map <C-p> <A-p>
 map ff <Action>(GotoFile) 
-
-" Use system clipboard
-set clipboard=unnamed
-

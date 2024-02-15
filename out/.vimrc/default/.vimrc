@@ -4,11 +4,12 @@ set nocompatible
 " no swap files
 set noswapfile
 
-" Use system clipboard
-set clipboard=unnamed
-
 " fuzzy find fzf
 nnoremap ff :FZF<CR>
+
+" timeout lenght
+set timeoutlen=1000
+set ttimeoutlen=50
 
 " Helps force plugins to load correctly when it is turned back on below
 filetype off
@@ -23,8 +24,8 @@ syntax on
 " For plugins to load correctly
 filetype plugin indent on
 
-" TODO: Pick a leader key
-" let mapleader = ","
+" Pick a leader key
+let mapleader = ","
 
 " Security
 set modelines=0
@@ -43,7 +44,7 @@ set encoding=utf-8
 
 " Whitespace
 set wrap
-set textwidth=79
+set textwidth=80
 set formatoptions=tcqrn1
 set tabstop=2
 set shiftwidth=2
@@ -58,8 +59,8 @@ set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
 " Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
+" nnoremap j gj
+" nnoremap k gk
 
 " Allow hidden buffers
 set hidden
@@ -84,16 +85,9 @@ set smartcase
 set showmatch
 map <leader><space> :let @/=''<cr> " clear search
 
-" Remap help key.
-inoremap <F1> <ESC>:set invfullscreen<CR>a
-nnoremap <F1> :set invfullscreen<CR>
-vnoremap <F1> :set invfullscreen<CR>
-
 " Cursor
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
-
-" Textmate holdouts
 
 " Formatting
 map <leader>q gqip
@@ -120,6 +114,9 @@ call plug#begin()
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
   Plug 'joshdick/onedark.vim'
+  Plug 'vimwiki/vimwiki'
+  Plug 'vim-scripts/ReplaceWithRegister'
+  Plug 'preservim/nerdtree'
 call plug#end()
 
 " Color scheme (terminal)
@@ -127,3 +124,11 @@ set t_Co=256
 set background=dark
 colorscheme onedark
 
+" Vimwiki
+nmap <leader>dd <Plug>VimwikiMakeTomorrowDiaryNote
+nmap <leader>pd <Plug>VimwikiDiaryPrevDay
+nmap <leader>nd <Plug>VimwikiDiaryNextDay
+
+" Nerdtree
+nnoremap <leader>n :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
