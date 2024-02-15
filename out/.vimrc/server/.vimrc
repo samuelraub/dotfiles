@@ -1,4 +1,4 @@
-# vim: set filetype=vim.eruby:
+" vim: set filetype=vim.eruby:
 
 " Don't try to be vi compatible
 set nocompatible
