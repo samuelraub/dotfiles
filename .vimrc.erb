@@ -130,5 +130,5 @@ nmap <leader>pd <Plug>VimwikiDiaryPrevDay
 nmap <leader>nd <Plug>VimwikiDiaryNextDay
 
 " Nerdtree
-nnoremap <leader>n :NERDTreeToggle<CR>
+nnoremap <leader>nn :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
