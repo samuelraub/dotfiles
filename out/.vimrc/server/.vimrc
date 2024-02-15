@@ -116,11 +116,7 @@ call plug#begin()
   Plug 'vim-scripts/ReplaceWithRegister'
   Plug 'preservim/nerdtree'
   Plug 'morhetz/gruvbox'
-<% if v[:local] %>
-  Plug 'vimwiki/vimwiki'
-  Plug 'jlcrochet/vim-ruby'
-  Plug 'pangloss/vim-javascript'
-<% end %>
+
 call plug#end()
 
 " Color scheme (terminal)

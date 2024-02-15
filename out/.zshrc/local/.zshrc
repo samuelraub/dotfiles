@@ -1,3 +1,5 @@
+# vim: set filetype=bash.eruby:
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -142,7 +144,7 @@ alias dy="dig +short @dns.toys"
 alias br="bin/rails"
 alias bex="bundle exec"
 
-alias notes="cd ~/notes && vim"
+alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.wiki"
 
 
 

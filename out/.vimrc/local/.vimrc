@@ -1,11 +1,10 @@
+# vim: set filetype=vim.eruby:
+
 " Don't try to be vi compatible
 set nocompatible
 
 " no swap files
 set noswapfile
-
-" fuzzy find fzf
-nnoremap ff :FZF<CR>
 
 " timeout lenght
 set timeoutlen=1000
@@ -27,8 +26,9 @@ filetype plugin indent on
 " Pick a leader key
 let mapleader = ","
 
-" Security
-set modelines=0
+" Modelines
+set modeline
+set modelines=1
 
 " Show line numbers
 set number
@@ -113,22 +113,32 @@ call plug#begin()
   Plug 'tpope/vim-commentary'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-  Plug 'joshdick/onedark.vim'
-  Plug 'vimwiki/vimwiki'
   Plug 'vim-scripts/ReplaceWithRegister'
   Plug 'preservim/nerdtree'
+  Plug 'morhetz/gruvbox'
+
+  Plug 'vimwiki/vimwiki'
+  Plug 'jlcrochet/vim-ruby'
+  Plug 'pangloss/vim-javascript'
+
 call plug#end()
 
 " Color scheme (terminal)
 set t_Co=256
 set background=dark
-colorscheme onedark
+colorscheme gruvbox
 
 " Vimwiki
 nmap <leader>dd <Plug>VimwikiMakeTomorrowDiaryNote
 nmap <leader>pd <Plug>VimwikiDiaryPrevDay
 nmap <leader>nd <Plug>VimwikiDiaryNextDay
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': 'md'}]
 
 " Nerdtree
 nnoremap <leader>nn :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
+
+" fuzzy find fzf
+nnoremap ff :FZF<CR>
+command! -bang -nargs=* Rg call fzf#vim#grep('rg --hidden --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
+
