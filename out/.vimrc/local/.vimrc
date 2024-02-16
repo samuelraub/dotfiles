@@ -139,8 +139,8 @@ let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': 'md'}]
 nnoremap <leader>nn :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 
-" fuzzy find fzf
-nnoremap ff :FZF<CR> with vim.fzf
+" fuzzy find fzf with vim.fzf
+nnoremap ff :FZF<CR>
 
 " Ripgrep hidden files with vim.fzf
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --hidden --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
