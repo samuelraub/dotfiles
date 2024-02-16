@@ -7,11 +7,18 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # FZF
-
-
-
-export FZF_DEFAULT_COMMAND='find .'
-
+export FZF_DEFAULT_COMMAND='rg --files --hidden'
+ff() {
+  old_dir=$(pwd)
+  cd ~
+  new_dir=$(find * -type d -maxdepth 2 | fzf)
+  if [ -z "$new_dir" ]
+  then
+    cd $old_dir
+  else
+    cd $new_dir
+  fi
+}
 
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
