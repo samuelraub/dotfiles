@@ -147,7 +147,7 @@ alias bex="bundle exec"
 alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.md"
 
 alias dfc="dotdotdotfiles compile -p"
-alias dfl="dotdotdotfiles link"
+alias ddd="dotdotdotfiles"
 
 
 
