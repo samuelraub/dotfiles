@@ -123,6 +123,8 @@ export EDITOR='vim'
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
+alias ip="ifconfig | grep 192 | grep --color=never -E '[^ ]*$' -o"
+alias pubip='dig +short txt ch whoami.cloudflare @1.0.0.1 | sed s/\"//g'
 alias src="source ~/.zshrc"
 alias vrc="vim ~/dev/template_dotfiles/.vimrc.erb"
 alias zrc="vim ~/dev/template_dotfiles/.zshrc.erb"
