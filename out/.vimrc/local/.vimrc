@@ -32,12 +32,10 @@ set modelines=1
 
 " Show line numbers
 set number
+set relativenumber
 
 " Show file stats
 set ruler
-
-" Blink cursor on error instead of beeping (grr)
-" set visualbell
 
 " Encoding
 set encoding=utf-8
@@ -59,8 +57,11 @@ set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
 " Move up/down editor lines
-" nnoremap j gj
-" nnoremap k gk
+nnoremap j gj
+nnoremap k gk
+
+" Yank till end of line
+nnoremap Y y$
 
 " Allow hidden buffers
 set hidden
@@ -139,6 +140,8 @@ nnoremap <leader>nn :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 
 " fuzzy find fzf
-nnoremap ff :FZF<CR>
+nnoremap ff :FZF<CR> with vim.fzf
+
+" Ripgrep hidden files with vim.fzf
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --hidden --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
 

@@ -144,7 +144,10 @@ alias dy="dig +short @dns.toys"
 alias br="bin/rails"
 alias bex="bundle exec"
 
-alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.wiki"
+alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.md"
+
+alias dfc="dotdotdotfiles compile -p"
+alias dfl="dotdotdotfiles link"
 
 
 
