@@ -63,6 +63,9 @@ nnoremap k gk
 " Yank till end of line
 nnoremap Y y$
 
+" <.> to enter command mode
+nnoremap . :
+
 " Allow hidden buffers
 set hidden
 
