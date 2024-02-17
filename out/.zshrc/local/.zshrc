@@ -11,7 +11,7 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden"
 ffd() {
   old_dir=$(pwd)
   cd ~
-  new_dir=$(find * -type d -maxdepth 2 | fzf)
+  new_dir=$(find * -maxdepth 2 -type d | fzf)
   if [ -z "$new_dir" ]
   then
     cd $old_dir
