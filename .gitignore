@@ -1,4 +1,8 @@
+/.idea
 .DS_Store
 plugged
 .netrwhist
+.key.txt
+*.secrets.erb
+/out/.zshrc/local
 

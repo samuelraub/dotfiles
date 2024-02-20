@@ -1,5 +1,7 @@
 # vim: set filetype=bash.eruby:
 
+
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -139,8 +141,6 @@ export EDITOR='vim'
 alias ip="ifconfig | grep 192 | grep --color=never -E '[^ ]*$' -o"
 alias pubip='dig +short txt ch whoami.cloudflare @1.0.0.1 | sed s/\"//g'
 alias src="source ~/.zshrc"
-alias vrc="vim ~/dev/template_dotfiles/.vimrc.erb"
-alias zrc="vim ~/dev/template_dotfiles/.zshrc.erb"
 alias c="clear"
 alias o="open"
 alias dev="cd ~/dev"
@@ -148,6 +148,9 @@ alias kc="kubectl"
 alias dops="docker ps -a"
 alias dopss='docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 alias doco="docker compose"
+clone(){
+  git clone git@github.com:$1.git
+}
 
 
 
