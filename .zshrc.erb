@@ -1,7 +1,7 @@
 # vim: set filetype=bash.eruby:
 
 <% if v[:local] %>
-<%= d.decrypt ".zshrc", "local" %>
+<%= d.decrypt ".zshrc.local.secrets" %>
 <% end %>
 
 # If you come from bash you might have to change your $PATH.

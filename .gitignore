@@ -3,6 +3,6 @@
 plugged
 .netrwhist
 .key.txt
-*.secrets.erb
+*.secrets
 /out/.zshrc/local
 
