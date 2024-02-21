@@ -159,3 +159,5 @@ clone(){
 
 
 
+  eval "$(rbenv init -)"
+
