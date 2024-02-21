@@ -159,5 +159,5 @@ clone(){
 
 
 
-  eval "$(rbenv init -)"
+eval "$(/home/samuel/.rbenv/bin/rbenv init - zsh)"
 
