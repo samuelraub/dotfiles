@@ -8,6 +8,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden"
 ffd() {
