@@ -159,5 +159,5 @@ clone(){
 
 
 
-eval "$(/home/samuel/.rbenv/bin/rbenv init - zsh)"
+export PATH=$PATH:/usr/local/go/bin:/home/samuel/go/bin
 

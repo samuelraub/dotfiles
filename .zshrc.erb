@@ -224,5 +224,5 @@ source /Users/samuelraub/.config/op/plugins.sh
 <% end %>
 
 <% if v[:server] %>
-eval "$(/home/samuel/.rbenv/bin/rbenv init - zsh)"
+export PATH=$PATH:/usr/local/go/bin:/home/samuel/go/bin
 <% end %>
