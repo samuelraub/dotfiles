@@ -159,6 +159,3 @@ clone(){
 
 
 
-
-export PATH=$PATH:/usr/local/go/bin:/home/samuel/go/bin
-

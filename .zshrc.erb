@@ -214,18 +214,9 @@ load-nvmrc
 # psql
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/samuelraub/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/samuelraub/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/samuelraub/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/samuelraub/google-cloud-sdk/completion.zsh.inc'; fi
+# rbenv
+eval "$(~/.rbenv/bin/rbenv init - zsh)"
 
 source /Users/samuelraub/.config/op/plugins.sh
 <% end %>
 
-<% if v[:server] %>
-export PATH=$PATH:/usr/local/go/bin:/home/samuel/go/bin
-<% end %>
