@@ -10,7 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 
 # FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden"
+export FZF_DEFAULT_COMMAND="rg --files --hidden --no-ignore"
 ffd() {
   old_dir=$(pwd)
   cd ~
