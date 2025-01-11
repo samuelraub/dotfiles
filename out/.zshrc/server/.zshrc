@@ -36,10 +36,13 @@ ffc() {
   file=$(rg --hidden . | fzf)
   if [ -z "$file" ]
   then
-  else
+ else
     vim $(echo $file | sed 's/:.*//g')
   fi
 }
+
+
+
 
 
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -152,7 +155,6 @@ alias doco="docker compose"
 clone(){
   git clone git@github.com:$1.git
 }
-
 
 
 

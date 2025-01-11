@@ -40,10 +40,23 @@ ffc() {
   file=$(rg --hidden . | fzf)
   if [ -z "$file" ]
   then
-  else
+ else
     vim $(echo $file | sed 's/:.*//g')
   fi
 }
+
+
+<% if v[:local] %>
+# yazi file manager
+function y() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+   yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+}
+<% end %>
 
 
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -177,6 +190,8 @@ alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.md"
 
 alias dfc="dotdotdotfiles compile -p"
 alias ddd="dotdotdotfiles"
+
+alias idea="open -a 'Intellij IDEA' ."
 <% end %>
 
 <% if v[:local] %>
@@ -219,4 +234,3 @@ eval "$(~/.rbenv/bin/rbenv init - zsh)"
 
 source /Users/samuelraub/.config/op/plugins.sh
 <% end %>
-
