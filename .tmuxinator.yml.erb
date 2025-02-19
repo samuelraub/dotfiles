@@ -1,18 +1,15 @@
-# vim: set filetype=yaml:
+# vim: set filetype=yaml :
 
 name: main
 windows:
   - main:
       root: ~/dev
+      layout: main-horizontal
       panes:
         - clear
-  - remote:
+        - clear
+  - secondary:
       root: ~/dev
       panes:
         - clear
-  - wiki:
-      root: ~/vimwiki
-      panes:
-        - vim ./index.md
-      
 
