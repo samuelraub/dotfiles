@@ -1,0 +1,56 @@
+(defcfg
+  process-unmapped-keys yes
+  macos-dev-names-include ("Apple Internal Keyboard / Trackpad")
+)
+
+(defsrc
+  f1 f2 f10 f11 f12
+  u i o
+  caps a s d f h j k l ;
+  m , .
+  lmet spc
+)
+
+(defvar
+  tap-time 200
+  hold-time 200
+)
+
+(defalias
+  a (tap-hold $tap-time $hold-time a lsft)
+  s (tap-hold $tap-time $hold-time s lctl)
+  d (tap-hold $tap-time $hold-time d lalt)
+  f (tap-hold $tap-time $hold-time f lmet)
+  j (tap-hold $tap-time $hold-time j rmet)
+  k (tap-hold $tap-time $hold-time k ralt)
+  l (tap-hold $tap-time $hold-time l rctl)
+  ; (tap-hold $tap-time $hold-time ; rsft)
+  vimmode (tap-hold $tap-time $hold-time spc (layer-toggle vim))
+  nummode (layer-toggle num)
+)
+
+
+(deflayer base
+  brdn brup mute vold volu
+  u i o
+  esc @a @s @d @f h @j @k @l @;
+  m , .
+  @nummode @vimmode
+)
+
+(deflayer vim
+  brdn brup mute vold volu
+  u i o
+  esc @a @s @d @f left down up rght @;
+  m , .
+  spc
+)
+
+(deflayer num
+  brdn brup mute vold volu
+  7 8 9
+  esc @a @s @d @f left 4 5 6 @;
+  1 2 3
+  spc
+)
+
