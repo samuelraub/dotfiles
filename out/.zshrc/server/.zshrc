@@ -112,7 +112,7 @@ ZSH_THEME="catppuccin"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -152,9 +152,6 @@ alias kc="kubectl"
 alias dops="docker ps -a"
 alias dopss='docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 alias doco="docker compose"
-clone(){
-  git clone git@github.com:$1.git
-}
 
 
 

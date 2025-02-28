@@ -126,7 +126,7 @@ ZSH_THEME="catppuccin"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -166,13 +166,9 @@ alias kc="kubectl"
 alias dops="docker ps -a"
 alias dopss='docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 alias doco="docker compose"
-clone(){
-  git clone git@github.com:$1.git
-}
 
 <% if v[:local] %>
-alias vrc="vim ~/dotfiles/.vimrc.erb"
-alias zrc="vim ~/dotfiles/.zshrc.erb"
+alias zrc="nvim ~/dotfiles/.zshrc.erb"
 
 alias internet="ping 8.8.8.8"
 
@@ -181,19 +177,14 @@ alias ptags="git push --tags"
 alias rm="trash"
 alias ld="lazydocker"
 alias lg="lazygit"
-alias dy="dig +short @dns.toys"
 alias tmx="tmuxinator"
 alias v="nvim"
 
 alias br="bin/rails"
 alias bex="bundle exec"
 
-alias wiki="cd ~/vimwiki && vim ~/vimwiki/index.md"
-
 alias dfc="dotdotdotfiles compile -p"
 alias ddd="dotdotdotfiles"
-
-alias idea="open -a 'Intellij IDEA' ."
 <% end %>
 
 <% if v[:local] %>
@@ -234,5 +225,6 @@ export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 # rbenv
 eval "$(~/.rbenv/bin/rbenv init - zsh)"
 
+# 1Password
 source /Users/samuelraub/.config/op/plugins.sh
 <% end %>

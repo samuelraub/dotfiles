@@ -1,0 +1,52 @@
+(defcfg
+  input  (iokit-name "Apple Internal Keyboard / Trackpad")
+  output (kext)
+  fallthrough true
+)
+
+(defsrc
+  f1 f2 f10 f11 f12
+  u i o
+  caps a s d f h j k l ;
+  m , .
+  lmet spc rmet
+)
+
+(defalias
+  a (tap-hold-next-release 200 a lsft)
+  s (tap-hold-next-release 200 s lctl)
+  d (tap-hold-next-release 200 d lalt)
+  f (tap-hold-next-release 200 f lmet)
+  j (tap-hold-next-release 200 j rmet)
+  k (tap-hold-next-release 200 k ralt)
+  l (tap-hold-next-release 200 l rctl)
+  ; (tap-hold-next-release 200 ; rsft)
+  vimmode (tap-hold 200 spc (layer-toggle vim))
+  nummode (layer-toggle num)
+  test (layer-toggle vim)
+)
+
+(deflayer base
+  brdn brup mute vold volu
+  u i o
+  esc @a @s @d @f h @j @k @l @;
+  m , .
+  @nummode @vimmode @test
+)
+
+(deflayer vim
+  brdn brup mute vold volu
+  u i o
+  esc @a @s @d @f left down up rght @;
+  m , .
+  lmet spc rmet
+)
+
+(deflayer num
+  brdn brup mute vold volu
+  7 8 9
+  esc @a @s @d @f left 4 5 6 @;
+  1 2 3
+  lmet spc rmet
+)
+
