@@ -45,7 +45,6 @@ ffc() {
   fi
 }
 
-
 <% if v[:local] %>
 # yazi file manager
 function y() {
@@ -169,6 +168,25 @@ alias doco="docker compose"
 
 <% if v[:local] %>
 alias zrc="nvim ~/dotfiles/.zshrc.erb"
+
+TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "yazi")
+
+ccd() {
+  local dir="$(realpath "$1")"
+  tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_pid}' | while read -r pane pid; do
+    if ! pgrep -P "$pid" -f "$(printf "%s|" "${TUI_PROCESSES[@]}" | sed 's/|$//')" >/dev/null; then
+      tmux send-keys -t "$pane" "cd '$dir'" C-m
+    fi
+  done
+}
+
+jj() {
+  tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_pid}' | while read -r pane pid; do
+    if ! pgrep -P "$pid" -f "$(printf "%s|" "${TUI_PROCESSES[@]}" | sed 's/|$//')" >/dev/null; then
+      tmux send-keys -t "$pane" "j '$1'" C-m
+    fi
+  done
+}
 
 alias internet="ping 8.8.8.8"
 
