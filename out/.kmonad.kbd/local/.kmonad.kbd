@@ -9,7 +9,7 @@
   u i o
   caps a s d f h j k l ;
   m , .
-  lmet spc rmet
+  lalt lmet spc rmet
 )
 
 (defalias
@@ -21,9 +21,9 @@
   k (tap-hold-next-release 200 k ralt)
   l (tap-hold-next-release 200 l rctl)
   ; (tap-hold-next-release 200 ; rsft)
-  vimmode (tap-hold 200 spc (layer-toggle vim))
   nummode (layer-toggle num)
-  test (layer-toggle vim)
+  vimmode (layer-toggle vim)
+  tmxpfx C-a
 )
 
 (deflayer base
@@ -31,7 +31,7 @@
   u i o
   esc @a @s @d @f h @j @k @l @;
   m , .
-  @nummode @vimmode @test
+  @tmxpfx @nummode spc @vimmode
 )
 
 (deflayer vim
@@ -39,7 +39,7 @@
   u i o
   esc @a @s @d @f left down up rght @;
   m , .
-  lmet spc rmet
+  lalt lmet spc rmet
 )
 
 (deflayer num
@@ -47,6 +47,7 @@
   7 8 9
   esc @a @s @d @f left 4 5 6 @;
   1 2 3
-  lmet spc rmet
+  lalt lmet spc rmet
 )
 
+;; vim: set ft=lisp:
