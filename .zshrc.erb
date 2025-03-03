@@ -1,5 +1,3 @@
-# vim: set filetype=bash.eruby:
-
 <% if v[:local] %>
 <%= d.decrypt ".zshrc.local.secrets" %>
 <% end %>
@@ -169,7 +167,7 @@ alias doco="docker compose"
 <% if v[:local] %>
 alias zrc="nvim ~/dotfiles/.zshrc.erb"
 
-TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "yazi")
+TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "yazi" "less")
 
 ccd() {
   local dir="$(realpath "$1")"
@@ -246,3 +244,5 @@ eval "$(~/.rbenv/bin/rbenv init - zsh)"
 # 1Password
 source /Users/samuelraub/.config/op/plugins.sh
 <% end %>
+
+# vim: set filetype=bash.eruby:

@@ -1,5 +1,3 @@
-# vim: set filetype=bash.eruby:
-
 
 
 # If you come from bash you might have to change your $PATH.
@@ -157,3 +155,5 @@ alias doco="docker compose"
 
 
 
+
+# vim: set filetype=bash.eruby:
