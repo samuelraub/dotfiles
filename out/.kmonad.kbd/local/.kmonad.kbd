@@ -6,10 +6,17 @@
 
 (defsrc
   f1 f2 f10 f11 f12
-  u i o
-  caps a s d f h j k l ;
+  u i o [
+  caps a s d f h j k l ; '
   m , .
   lalt lmet spc rmet
+)
+
+(
+ defalias 
+  ä (tap-macro A-u a)
+  ö (tap-macro A-u o)
+  ü (tap-macro A-u u)
 )
 
 (defalias
@@ -28,24 +35,24 @@
 
 (deflayer base
   brdn brup mute vold volu
-  u i o
-  esc @a @s @d @f h @j @k @l @;
+  u i o [
+  esc @a @s @d @f h @j @k @l @; '
   m , .
   @tmxpfx @nummode spc @vimmode
 )
 
 (deflayer vim
   brdn brup mute vold volu
-  u i o
-  esc @a @s @d @f left down up rght @;
+  u i o [
+  esc @a @s @d @f left down up rght @; '
   m , .
   lalt lmet spc rmet
 )
 
 (deflayer num
   brdn brup mute vold volu
-  7 8 9
-  esc @a @s @d @f left 4 5 6 @;
+  7 8 9 @ü
+  esc @a @s @d @f left 4 5 6 @ö @ä
   1 2 3
   lalt lmet spc 0
 )
