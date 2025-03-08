@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Installing dotfiles..."
+
+cp -r ./out/nvim/default/nvim $HOME/.config
+
+# vim: set ft=bash :
