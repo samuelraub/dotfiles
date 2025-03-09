@@ -1,0 +1,55 @@
+---
+output_path: "~/dotfiles/out"
+templates_path: "~/dotfiles"
+repository: "git@github.com:samuelraub/dotfiles.git"
+files:
+  - name: .zshrc
+    variants:
+      - name: local
+        links:
+          - .zshrc
+      - name: server
+  - name: .tmux.conf
+    variants:
+      - name: default
+        links:
+          - .tmux.conf
+  - name: .vimrc
+    variants:
+      - name: local
+        links:
+          - .vimrc
+      - name: server
+  - name: .ideavimrc
+    variants:
+      - name: local
+        links:
+          - .ideavimrc
+  - name: .tmuxinator.yml
+    variants:
+      - name: local
+        links:
+          - .tmuxinator.yml
+  - name: .alacritty.toml
+    variants:
+      - name: local
+        links:
+          - .alacritty.toml
+  - name: .kmonad.kbd
+    variants:
+      - name: local
+        links:
+          - .kmonad.kbd
+  - name: ghostty
+    variants:
+      - name: local
+        links:
+          - .config/ghostty/config
+  - name: nvim
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .config/nvim
+secrets:
+  - .zshrc.local.secrets
