@@ -19,3 +19,31 @@ vim.keymap.set("n", "<leader>zI", "<cmd>Telekasten insert_img_link<CR>")
 
 -- Call insert link automatically when we start typing a link
 vim.keymap.set("i", "[[", "<cmd>Telekasten insert_link<CR>")
+
+---
+--DELETE BUFFERS--
+---
+
+vim.keymap.del("n", "<leader>bd")
+
+vim.keymap.set("n", "<leader>bdd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete buffer" })
+
+vim.keymap.set("n", "<leader>bda", function()
+  Snacks.bufdelete.all()
+end, { desc = "Delete all buffers" })
+
+---
+--SEARCH AND REPLACE--
+---
+
+vim.keymap.del("n", "<leader>sr")
+
+vim.keymap.set("n", "<leader>srb", function()
+  require("grug-far").open({ prefills = { paths = vim.fn.expand("%") } })
+end, { desc = "Search and replace in buffer" })
+
+vim.keymap.set("n", "<leader>sra", function()
+  require("grug-far").open()
+end, { desc = "Search and replace in CWD" })
