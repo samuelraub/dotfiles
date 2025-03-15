@@ -61,17 +61,12 @@ unbind v; bind v split-window -h -c "#{pane_current_path}"
 
 # theme
 set -g default-terminal "tmux-256color"
-run ~/.tmux/plugins/tmux/catppuccin.tmux
-set -g @catppuccin_window_status_style "rounded"
-set -g @catppuccin_window_text " #{window_name}"
-set -g @catppuccin_window_current_text " #{window_name}"
-set -g @catppuccin_date_time_text " %d-%m %H:%M"
-set -g status-right-length 200
-set -g status-left ""
-set -gF status-right "#{E:@catppuccin_status_date_time}"
+set -g @rose_pine_variant 'main'
+set -g @rose_pine_date_time '%d-%m %H:%M'
 
 # TPM Plugin Manager
 # List of plugins
+set -g @plugin 'rose-pine/tmux'
 set -g @plugin 'christoomey/vim-tmux-navigator'
 set -g @plugin 'catppuccin/tmux#v2.1.2'
 set -g @plugin 'tmux-plugins/tpm'
