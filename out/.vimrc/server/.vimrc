@@ -24,7 +24,7 @@ syntax on
 filetype plugin indent on
 
 " Pick a leader key
-let mapleader = ","
+let mapleader = ' '
 
 " Modelines
 set modeline
@@ -56,15 +56,8 @@ set backspace=indent,eol,start
 set matchpairs+=<:> " use % to jump between pairs
 runtime! macros/matchit.vim
 
-" Move up/down editor lines
-nnoremap j gj
-nnoremap k gk
-
 " Yank till end of line
 nnoremap Y y$
-
-" <-> to enter command mode
-nnoremap - :
 
 " Allow hidden buffers
 set hidden
@@ -78,46 +71,6 @@ set laststatus=2
 " Last line
 set showmode
 set showcmd
-
-" Searching
-nnoremap / /\v
-vnoremap / /\v
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-set showmatch
-map <leader><space> :let @/=''<cr> " clear search
-
-" Cursor
-let &t_SI = "\e[6 q"
-let &t_EI = "\e[2 q"
-
-" Formatting
-map <leader>q gqip
-
-" Fix indentation on paste in tmux
-function! WrapForTmux(s)
-  if !exists('$TMUX')
-    return a:s
-  endif
-
-  let tmux_start = "\<Esc>Ptmux;"
-  let tmux_end = "\<Esc>\\"
-
-  return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
-
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-function! XTermPasteBegin()
-  set pastetoggle=<Esc>[201~
-  set paste
-  return ""
-endfunction
-
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 " Visualize tabs and newlines
 set listchars=tab:▸\ ,eol:¬
@@ -142,27 +95,20 @@ call plug#begin()
   Plug 'junegunn/fzf.vim'
   Plug 'vim-scripts/ReplaceWithRegister'
   Plug 'preservim/nerdtree'
-  Plug 'morhetz/gruvbox'
+  Plug 'rose-pine/vim'
 
 call plug#end()
 
 " Color scheme (terminal)
 set t_Co=256
 set background=dark
-colorscheme gruvbox
-
-" Vimwiki
-nmap <leader>dd <Plug>VimwikiMakeTomorrowDiaryNote
-nmap <leader>pd <Plug>VimwikiDiaryPrevDay
-nmap <leader>nd <Plug>VimwikiDiaryNextDay
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': 'md'}]
 
 " Nerdtree
 nnoremap <leader>nn :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
 
 " fuzzy find fzf with vim.fzf
-nnoremap ff :FZF<CR>
+nnoremap <leader><leader> :FZF<CR>
 
 " Ripgrep hidden files with vim.fzf
 command! -bang -nargs=* Rg call fzf#vim#grep('rg --hidden --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>), 1, fzf#vim#with_preview(), <bang>0)
