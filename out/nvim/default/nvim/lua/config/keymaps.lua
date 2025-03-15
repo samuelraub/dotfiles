@@ -47,3 +47,31 @@ end, { desc = "Search and replace in buffer" })
 vim.keymap.set("n", "<leader>sra", function()
   require("grug-far").open()
 end, { desc = "Search and replace in CWD" })
+
+---
+--SUBSTITUTE--
+---
+
+vim.keymap.set("n", "<leader>su", ":%s/<c-r><c-w>//gc<left><left><left>", { desc = "Substitute" })
+vim.keymap.set("v", "<leader>su", function()
+  local esc = vim.api.nvim_replace_termcodes("<esc>", true, false, true)
+  vim.api.nvim_feedkeys(esc, "x", false)
+
+  local _, ls, cs = unpack(vim.fn.getpos("'<")) -- start of selection
+  local _, le, ce = unpack(vim.fn.getpos("'>")) -- end of selection
+  local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+
+  local selection
+  if #lines == 1 then
+    selection = string.sub(lines[1], cs, ce)
+  else
+    selection = lines[1]:sub(cs) .. "\n" .. table.concat(lines, "\n", 2, #lines - 1) .. "\n" .. lines[#lines]:sub(1, ce)
+  end
+
+  selection = vim.fn.escape(selection, "/\\")
+
+  vim.api.nvim_feedkeys(":%s/" .. selection .. "//gc", "n", false)
+
+  local move_cursor = vim.api.nvim_replace_termcodes("<left><left><left>", true, false, true)
+  vim.api.nvim_feedkeys(move_cursor, "n", false)
+end, { desc = "Search and replace with visual selection", silent = true })
