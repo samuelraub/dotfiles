@@ -75,3 +75,16 @@ vim.keymap.set("v", "<leader>su", function()
   local move_cursor = vim.api.nvim_replace_termcodes("<left><left><left>", true, false, true)
   vim.api.nvim_feedkeys(move_cursor, "n", false)
 end, { desc = "Search and replace with visual selection", silent = true })
+
+---
+--RELOAD BROWSER TAB--
+---
+
+vim.keymap.set("n", "<leader>rr", function()
+  os.execute([[
+    osascript -e 'tell application "Firefox" to activate'
+    sleep 0.2
+    osascript -e 'tell application "System Events" to keystroke "r" using command down'
+  ]])
+  print("Reloaded Firefox tab")
+end, { noremap = true, silent = true })

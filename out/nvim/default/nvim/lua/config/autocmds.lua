@@ -9,7 +9,16 @@
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "dockerfile" },
+  group = vim.api.nvim_create_augroup("custom_dockerfile", { clear = true }),
   callback = function()
     vim.b.autoformat = false
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = { "ruby" },
+  group = vim.api.nvim_create_augroup("custom_ruby", { clear = true }),
+  callback = function()
+    vim.cmd("setlocal indentkeys-=.")
   end,
 })
