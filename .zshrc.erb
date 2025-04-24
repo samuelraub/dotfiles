@@ -47,45 +47,6 @@ function y() {
 <% end %>
 
 <% if v[:local] %>
-# THEME
-# Rose Pine color palette for terminal
-RP_RED="#eb6f92"
-RP_GREEN="#31748f"
-RP_YELLOW="#f6c177"
-RP_BLUE="#9ccfd8"
-RP_MAGENTA="#c4a7e7"
-RP_CYAN="#ebbcba"
-RP_WHITE="#e0def4"
-RP_BRIGHT_BLACK="#6e6a86"
-RP_BRIGHT_RED="#eb6f92"
-RP_BRIGHT_GREEN="#31748f"
-RP_BRIGHT_YELLOW="#f6c177"
-RP_BRIGHT_BLUE="#9ccfd8"
-RP_BRIGHT_MAGENTA="#c4a7e7"
-RP_BRIGHT_CYAN="#ebbcba"
-RP_BRIGHT_WHITE="#e0def4"
-
-apply_rose_pine_colors() {
-  printf "\e]4;0;%s\a" "$RP_BLACK"    # Black
-  printf "\e]4;1;%s\a" "$RP_RED"      # Red
-  printf "\e]4;2;%s\a" "$RP_GREEN"    # Green
-  printf "\e]4;3;%s\a" "$RP_YELLOW"   # Yellow
-  printf "\e]4;4;%s\a" "$RP_BLUE"     # Blue
-  printf "\e]4;5;%s\a" "$RP_MAGENTA"  # Magenta
-  printf "\e]4;6;%s\a" "$RP_CYAN"     # Cyan
-  printf "\e]4;7;%s\a" "$RP_WHITE"    # White
-  printf "\e]4;8;%s\a" "$RP_BRIGHT_BLACK"   # Bright Black
-  printf "\e]4;9;%s\a" "$RP_BRIGHT_RED"     # Bright Red
-  printf "\e]4;10;%s\a" "$RP_BRIGHT_GREEN"  # Bright Green
-  printf "\e]4;11;%s\a" "$RP_BRIGHT_YELLOW" # Bright Yellow
-  printf "\e]4;12;%s\a" "$RP_BRIGHT_BLUE"   # Bright Blue
-  printf "\e]4;13;%s\a" "$RP_BRIGHT_MAGENTA" # Bright Magenta
-  printf "\e]4;14;%s\a" "$RP_BRIGHT_CYAN"    # Bright Cyan
-  printf "\e]4;15;%s\a" "$RP_BRIGHT_WHITE"   # Bright White
-}
-
-apply_rose_pine_colors
-
 # PROMPT
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 autoload -U promptinit
