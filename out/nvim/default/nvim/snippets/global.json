@@ -1,0 +1,6 @@
+{
+  "arrowFunction": { "prefix": "fn", "body": "($1) => $0" },
+  "arrowFunctionCurly": { "prefix": "ffn", "body": "($1) => {$0}" },
+  "useEffect": { "prefix": "fct", "body": "useEffect(() => {\n  $0\n}, [])" },
+  "import": { "prefix": "mpr", "body": "import $1 from \"$0\"" }
+}
