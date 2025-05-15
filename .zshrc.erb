@@ -137,4 +137,8 @@ bindkey "^[b" backward-word
 bindkey "^[f" forward-word
 <% end %>
 
+# case insensitive completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 # vim: set filetype=bash.eruby:

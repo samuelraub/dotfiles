@@ -60,4 +60,8 @@ alias doco="docker compose"
 
 
 
+# case insensitive completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 # vim: set filetype=bash.eruby:
