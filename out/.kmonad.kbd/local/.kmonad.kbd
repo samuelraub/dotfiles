@@ -22,13 +22,13 @@
 
 (defalias
   a (tap-hold-next-release 200 a lsft)
-  s (tap-hold-next-release 200 s lctl)
-  d (tap-hold-next-release 200 d lalt)
-  f (tap-hold-next-release 200 f lmet)
-  j (tap-hold-next-release 200 j rmet)
-  k (tap-hold-next-release 200 k ralt)
-  l (tap-hold-next-release 200 l rctl)
-  ; (tap-hold-next-release 200 ; rsft)
+  s (tap-hold-next-release 200 r lctl)
+  d (tap-hold-next-release 200 s lalt)
+  f (tap-hold-next-release 200 t lmet)
+  j (tap-hold-next-release 200 n rmet)
+  k (tap-hold-next-release 200 e ralt)
+  l (tap-hold-next-release 200 i rctl)
+  ; (tap-hold-next-release 200 o rsft)
   ll left
   dd down
   uu up
@@ -42,9 +42,9 @@
 (deflayer default
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  esc  @a   @s   @d   @f   _    _    @j   @k   @l   @;   _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    q    w    f    p    b    j    l    u    y    '    _    _    _
+  esc  @a   @s   @d   @f   g    m    @j   @k   @l   @;   _    _
+  @tm  z    x    c    d    v    k    h    _    _    _    _    _
   _    _    @tm  @vm            _              @nm  _    _    _    _
 )
 
@@ -61,7 +61,7 @@
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  esc  _    _    _    _    _    @ll  @dd  @uu  @rr   _    _    _
+  esc  _    _    _    _    _    _    @ll  @dd  @uu  @rr  _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
 )
@@ -74,5 +74,3 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
 )
-
-;; vim: set ft=lisp:
