@@ -35,9 +35,9 @@
 
 (deflayer default
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
-  _    q    w    f    p    b    j    l    u    y    '    _    _    _
-  _    @a   @s   @d   @f   g    m    @j   @k   @l   @;   _    _    _
-  _    z    x    c    d    v    k    h    ,    .    /    _    _
+  _    q    w    f    p    b    _    j    l    u    y    '    _    _
+  _    @a   @s   @d   @f   g    _    m    @j   @k   @l   @;   _    _
+  _    z    x    c    d    v    _    k    h    ,    .    /    _
   _    _    _    @tm  @vm  tab  @sm  @nm  _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
 )
@@ -45,7 +45,7 @@
 (deflayer tmx
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    @tp  _    _    _    _    _
+  _    _    _    _    _    _    _    _    _  @tp    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
@@ -54,7 +54,7 @@
 (deflayer vim
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    @a   @s   @d   @f   _    _    @ll  @dd  @uu  @rr  _    _    _
+  _    @a   @s   @d   @f   _    _    _    @ll  @dd  @uu  @rr  _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
@@ -63,7 +63,7 @@
 (deflayer sym
   _    brdn brup lp   mctl bldn blup prev pp   next mute vold volu
   _    S-[  S-7  S-8  _    S-]  _    _    _    _    _    _    _    _
-  _    S-;  S-4  S-5  S-6  S-=  _    @ll  @dd  @uu  @rr  _    _    _
+  _    S-;  S-4  S-5  S-6  S-=  _    _    @ll  @dd  @uu  @rr  _    _
   _    S-`  S-1  S-2  S-3  S-\  _    _    _    _    _    _    _
   _    _    _    S-9  S-0  S--  _    _    _    _    _    _    _
   _    _    _    _              _              _    _    _    _    _
