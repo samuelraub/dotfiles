@@ -36,4 +36,6 @@ alias doco="docker compose"
 autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
+eval "$(zoxide init zsh)"
+
 # vim: set filetype=bash.eruby:
