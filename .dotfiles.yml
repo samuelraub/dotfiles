@@ -51,5 +51,11 @@ files:
       - name: default
         links:
           - .config/nvim
+  - name: kitty
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .config/kitty
 secrets:
   - .zshrc.local.secrets
