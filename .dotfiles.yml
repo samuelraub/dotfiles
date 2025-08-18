@@ -57,5 +57,11 @@ files:
       - name: default
         links:
           - .config/kitty
+  - name: mise
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .config/mise
 secrets:
   - .zshrc.local.secrets

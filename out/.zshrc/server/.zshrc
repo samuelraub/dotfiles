@@ -8,12 +8,10 @@ source <(fzf --zsh)
 
 
 
-
-
 # Exports
 export EDITOR='vim'
 
-alias l="ls -la --color"
+alias l="eza -lag --icons=always"
 
 alias ip="ifconfig | grep 192 | grep --color=never -E '[^ ]*$' -o"
 alias pubip='dig +short txt ch whoami.cloudflare @1.0.0.1 | sed s/\"//g'
@@ -31,11 +29,5 @@ alias doco="docker compose"
 
 
 
-
-# case insensitive completion
-autoload -Uz compinit && compinit
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-
-eval "$(zoxide init zsh)"
 
 # vim: set filetype=bash.eruby:

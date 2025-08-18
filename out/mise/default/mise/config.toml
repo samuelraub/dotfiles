@@ -1,0 +1,32 @@
+[settings]
+idiomatic_version_file_enable_tools = ["ruby", "node"]
+experimental = true
+
+[tools]
+age = "1.2.1"
+claude = "1.0.81"
+eza = "0.23.0"
+fd = "10.2.0"
+ffmpeg = "7.1.1"
+fzf = "0.65.1"
+"gem:tmuxinator" = "3.3.5"
+jq = "1.8.1"
+lazydocker = "0.24.1"
+lazygit = "0.54.2"
+marksman = "2024-12-18"
+node = "20"
+"npm:@biomejs/biome" = "2.2.0"
+"npm:@fsouza/prettierd" = "0.26.1"
+"npm:@microsoft/compose-language-service" = "0.4.0"
+"npm:@tailwindcss/language-server" = "0.14.26"
+"npm:@vtsls/language-server" = "0.2.9"
+"npm:dockerfile-language-server-nodejs" = "0.14.1"
+"npm:tldr" = "3.4.0"
+"npm:trash-cli" = "6.0.0"
+"npm:vscode-langservers-extracted" = "4.10.0"
+"npm:yaml-language-server" = "1.18.0"
+pnpm = "10.14.0"
+ripgrep = "14.1.1"
+ruby = "3.3.4"
+yazi = "25.5.31"
+zoxide = "0.9.8"
