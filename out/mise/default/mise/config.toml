@@ -1,6 +1,6 @@
 [settings]
-idiomatic_version_file_enable_tools = ["ruby", "node"]
 experimental = true
+idiomatic_version_file_enable_tools = []
 
 [tools]
 age = "1.2.1"
@@ -9,7 +9,6 @@ eza = "0.23.0"
 fd = "10.2.0"
 ffmpeg = "7.1.1"
 fzf = "0.65.1"
-"gem:tmuxinator" = "3.3.5"
 jq = "1.8.1"
 lazydocker = "0.24.1"
 lazygit = "0.54.2"
@@ -25,8 +24,9 @@ node = "20"
 "npm:trash-cli" = "6.0.0"
 "npm:vscode-langservers-extracted" = "4.10.0"
 "npm:yaml-language-server" = "1.18.0"
-pnpm = "10.14.0"
+pnpm = "10.17.1"
 ripgrep = "14.1.1"
 ruby = "3.3.4"
+terraform = "1.13.1"
 yazi = "25.5.31"
 zoxide = "0.9.8"
