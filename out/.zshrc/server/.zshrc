@@ -1,9 +1,5 @@
 
 
-# FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden --no-ignore"
-source <(fzf --zsh)
-
 
 
 
@@ -11,7 +7,10 @@ source <(fzf --zsh)
 # Exports
 export EDITOR='vim'
 
-alias l="eza -lag --icons=always"
+
+
+alias l="ls -la --color=always"
+
 
 alias ip="ifconfig | grep 192 | grep --color=never -E '[^ ]*$' -o"
 alias pubip='dig +short txt ch whoami.cloudflare @1.0.0.1 | sed s/\"//g'
