@@ -4,7 +4,6 @@ idiomatic_version_file_enable_tools = []
 
 [tools]
 age = "1.2.1"
-claude = "1.0.81"
 eza = "0.23.0"
 fd = "10.2.0"
 ffmpeg = "7.1.1"
