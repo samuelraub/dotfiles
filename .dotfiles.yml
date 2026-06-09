@@ -63,5 +63,9 @@ files:
       - name: default
         links:
           - .config/mise
+  - name: Brewfile
+    compile: false
+    variants:
+      - name: default
 secrets:
   - .zshrc.local.secrets

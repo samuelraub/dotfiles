@@ -1,9 +1,15 @@
 # Dependencies
 
-## Homebrew
+Homebrew packages (formulae, casks, taps) are tracked in the [`Brewfile`](./Brewfile).
+
+Install everything on a new system (after installing Homebrew itself):
 
 ```sh
-brew install age autojump cmake coreutils fd ffmpeg fzf\
-gnu-tar htop jq lazydocker lazygit neovim\
-pure ripgrep tmux tree yazi zlib zsh-autosuggestions
+brew bundle install --file=~/dotfiles/Brewfile
+```
+
+Refresh the Brewfile after installing/removing tools:
+
+```sh
+brew bundle dump --describe --force --file=~/dotfiles/Brewfile
 ```

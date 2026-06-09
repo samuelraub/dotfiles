@@ -79,6 +79,11 @@ alias bex="bundle exec"
 
 alias dfc="dotdotdotfiles compile -p"
 alias ddd="dotdotdotfiles"
+
+# brew install + refresh the tracked Brewfile
+bi() {
+  brew install "$@" && brew bundle dump --describe --force --file=~/dotfiles/Brewfile
+}
 <% end %>
 
 <% if v[:local] %>
