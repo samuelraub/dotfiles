@@ -1,0 +1,138 @@
+source_directories:
+    - /Users/samuelraub
+
+repositories:
+    - path: /Volumes/Elements SE/borg/home
+      label: elements
+
+encryption_passcommand: security find-generic-password -a samuelraub -s borg-home -w
+
+one_file_system: true
+exclude_caches: true
+exclude_if_present:
+    - .nobackup
+
+compression: auto,zstd,3
+archive_name_format: '{hostname}-home-{now}'
+lock_wait: 5
+
+# Borg 105 = "Backup permission issue": the archive committed fine, but some
+# files couldn't be opened (macOS TCC). Borg classes 100+ as warnings; borgmatic
+# escalates most of them to errors by default. On macOS that means a permanently
+# red backup over a handful of Apple system files, so restore Borg's own verdict.
+# Skipped files are still named individually in the log.
+borg_exit_codes:
+    - code: 105
+      treat_as: warning
+
+exclude_patterns:
+    # big rebuildables (~120 GB)
+    - /Users/samuelraub/Library/Group Containers/HUAQ24HBR6.dev.orbstack
+    - /Users/samuelraub/OrbStack
+    - /Users/samuelraub/Library/Caches
+    - /Users/samuelraub/Library/Developer
+    - /Users/samuelraub/Library/Group Containers/243LU875E5.groups.com.apple.podcasts
+    - /Users/samuelraub/Library/Application Support/com.apple.wallpaper
+
+    # cloud mounts - backing these up forces re-download of evicted files
+    - /Users/samuelraub/Library/CloudStorage
+    - /Users/samuelraub/Library/Mobile Documents
+
+    # toolchains & package caches (re-fetchable)
+    - /Users/samuelraub/.cache
+    - /Users/samuelraub/.npm
+    - /Users/samuelraub/.stack
+    - /Users/samuelraub/.rustup
+    - /Users/samuelraub/.cargo/registry
+    - /Users/samuelraub/.yarn/cache
+    - /Users/samuelraub/Library/pnpm/store
+    - /Users/samuelraub/go/pkg
+    - /Users/samuelraub/.gem
+    - /Users/samuelraub/.bundle
+    - /Users/samuelraub/.local/share/mise
+    - /Users/samuelraub/google-cloud-sdk
+    - /Users/samuelraub/.vscode/extensions
+
+    # reclonable
+    - /Users/samuelraub/vial-qmk
+    - /Users/samuelraub/qmk_firmware
+
+    # no longer used
+    - /Users/samuelraub/Library/Application Support/JetBrains
+
+    # noise
+    - /Users/samuelraub/.Trash
+    - /Users/samuelraub/Library/Logs
+    - /Users/samuelraub/Library/HTTPStorages
+    - sh:**/node_modules
+    - sh:**/__pycache__
+    - sh:**/.DS_Store
+
+    # macOS TCC-protected: unreadable without Full Disk Access, and borg exits
+    # 105 ("Backup permission issue") if it tries. 146 paths total; 95 of them
+    # are Apple sandbox containers covered by these three globs.
+    - sh:/Users/samuelraub/Library/Containers/com.apple.*
+    - sh:/Users/samuelraub/Library/Group Containers/*com.apple.*
+    - sh:/Users/samuelraub/Library/Application Support/com.apple.*
+    # the remainder, explicitly (Caches/* and .Trash already excluded above):
+    - /Users/samuelraub/Library/Accounts
+    - /Users/samuelraub/Library/AppleMediaServices
+    - /Users/samuelraub/Library/Application Support/CallHistoryDB
+    - /Users/samuelraub/Library/Application Support/CallHistoryTransactions
+    - /Users/samuelraub/Library/Application Support/CloudDocs
+    - /Users/samuelraub/Library/Application Support/DifferentialPrivacy
+    - /Users/samuelraub/Library/Application Support/FaceTime
+    - /Users/samuelraub/Library/Application Support/FileProvider
+    - /Users/samuelraub/Library/Application Support/Knowledge
+    - /Users/samuelraub/Library/Application Support/MobileSync
+    - /Users/samuelraub/Library/Assistant
+    - /Users/samuelraub/Library/Autosave Information
+    - /Users/samuelraub/Library/Biome
+    - /Users/samuelraub/Library/Calendars
+    - /Users/samuelraub/Library/com.apple.aiml.instrumentation
+    - /Users/samuelraub/Library/com.apple.bluetooth.services.cloud
+    - /Users/samuelraub/Library/ContainerManager
+    - /Users/samuelraub/Library/Cookies
+    - /Users/samuelraub/Library/CoreFollowUp
+    - /Users/samuelraub/Library/Daemon Containers
+    - /Users/samuelraub/Library/DoNotDisturb
+    - /Users/samuelraub/Library/DuetExpertCenter
+    - /Users/samuelraub/Library/HomeKit
+    - /Users/samuelraub/Library/IdentityServices
+    - /Users/samuelraub/Library/IntelligencePlatform
+    - /Users/samuelraub/Library/Mail
+    - /Users/samuelraub/Library/Messages
+    - /Users/samuelraub/Library/Metadata
+    - /Users/samuelraub/Library/PersonalizationPortrait
+    - /Users/samuelraub/Library/Safari
+    - /Users/samuelraub/Library/Sharing
+    - /Users/samuelraub/Library/Shortcuts
+    - /Users/samuelraub/Library/StatusKit
+    - /Users/samuelraub/Library/Suggestions
+    - /Users/samuelraub/Library/Trial
+    - /Users/samuelraub/Library/Weather
+    # TCC-protected *files* inside otherwise-readable dirs. These only surface
+    # on a real run (a `find -type d` scan can't see them), so this list came
+    # from the exit-105 output of the first full backup.
+    - sh:/Users/samuelraub/Library/Containers/*/.com.apple.containermanagerd.metadata.plist
+    - /Users/samuelraub/Library/Preferences/com.apple.mail-shared.plist
+    - /Users/samuelraub/Library/Preferences/com.apple.madrid.plist
+    - sh:/Users/samuelraub/Library/Preferences/com.apple.MobileSMS*
+    - sh:/Users/samuelraub/Library/Preferences/com.apple.messages.*
+    - sh:/Users/samuelraub/Library/Preferences/com.apple.homed*
+    # round 4, found by the first clean launchd run - Reminders in particular
+    # was NOT protected during the earlier scan, so this set drifts over time
+    - /Users/samuelraub/Library/Application Support/AddressBook
+    - /Users/samuelraub/Library/Preferences/com.apple.AddressBook.plist
+    - /Users/samuelraub/Library/Reminders
+
+keep_daily: 14
+keep_weekly: 8
+keep_monthly: 12
+keep_yearly: 3
+
+checks:
+    - name: repository
+      frequency: 2 weeks
+    - name: archives
+      frequency: 1 month

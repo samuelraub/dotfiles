@@ -1,0 +1,48 @@
+#!/bin/zsh
+# Scheduled/manual driver for the home borg backup.
+# Triggers: launchd StartCalendarInterval (13:00), StartOnMount, RunAtLoad.
+# The 12h throttle keeps the extra triggers cheap; --force bypasses it.
+
+# launchd hands us a minimal PATH (/usr/bin:/bin:/usr/sbin:/sbin). borgmatic
+# shells out to `borg` by name, so Homebrew's bin must be on PATH or the job
+# dies with "No such file or directory: 'borg'".
+export PATH="/opt/homebrew/bin:$PATH"
+
+REPO="/Volumes/Elements SE/borg/home"
+STAMP="$HOME/.local/state/borgmatic-last-success"
+MIN_INTERVAL=$(( 12 * 3600 ))
+mkdir -p "${STAMP:h}"
+
+age() {   # seconds since last success; huge if never
+  if [[ -f "$STAMP" ]]; then echo $(( $(date +%s) - $(<"$STAMP") )); else echo 999999999; fi
+}
+
+FORCE=0
+[[ "$1" == "--force" || "$1" == "-f" ]] && FORCE=1
+
+if [[ ! -d "$REPO" ]]; then
+  echo "$(date '+%F %T') drive not mounted - skipping"
+  exit 0
+fi
+
+if (( ! FORCE )) && (( $(age) < MIN_INTERVAL )); then
+  echo "$(date '+%F %T') last success $(age)s ago - skipping"
+  exit 0
+fi
+
+# A lock with no live borg process on this host is stale by definition
+if [[ -e "$REPO/lock.exclusive" ]] && ! pgrep -x borg >/dev/null; then
+  echo "$(date '+%F %T') clearing stale lock"
+  /opt/homebrew/bin/borg break-lock "$REPO"
+fi
+
+/usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic --verbosity 0 --syslog-verbosity 1
+rc=$?
+
+if (( rc == 0 )); then
+  date +%s > "$STAMP"
+else
+  echo "$(date '+%F %T') borgmatic exited $rc"
+fi
+
+exit $rc

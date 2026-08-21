@@ -82,7 +82,37 @@ alias ddd="dotdotdotfiles"
 
 # brew install + refresh the tracked Brewfile
 bi() {
-  brew install "$@" && brew bundle dump --describe --force --file=~/dotfiles/Brewfile
+  brew install "$@" && brew bundle dump --force --file=~/dotfiles/Brewfile
+}
+
+# run the home backup now, bypassing the 12h throttle
+alias bb="~/.local/bin/borgmatic-run --force"
+
+# backup status: when it last succeeded, recent log, latest archives
+bs() {
+  local stamp=~/.local/state/borgmatic-last-success secs
+  if [[ -f $stamp ]]; then
+    secs=$(( $(date +%s) - $(<$stamp) ))
+    printf 'last success: %s  (%dh %dm ago)\n' \
+      "$(date -r "$(<$stamp)" '+%F %T')" $((secs/3600)) $((secs%3600/60))
+  else
+    echo 'last success: never'
+  fi
+  echo '--- recent log ---'
+  tail -5 ~/Library/Logs/borgmatic.log 2>/dev/null || echo '(no log yet)'
+  echo '--- archives ---'
+  borgmatic list 2>/dev/null | tail -5
+}
+
+# warn on shell start if the backup has gone stale (daily cadence, so 3d = wrong)
+() {
+  local stamp=~/.local/state/borgmatic-last-success days
+  if [[ ! -f $stamp ]]; then
+    print -P "%F{yellow}⚠ no successful backup yet — run bb%f"
+  else
+    days=$(( ( $(date +%s) - $(<$stamp) ) / 86400 ))
+    (( days >= 3 )) && print -P "%F{yellow}⚠ backup ${days}d stale — run bb%f"
+  fi
 }
 <% end %>
 

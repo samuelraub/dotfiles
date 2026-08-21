@@ -67,5 +67,23 @@ files:
     compile: false
     variants:
       - name: default
+  - name: borgmatic
+    compile: false
+    variants:
+      - name: local
+        links:
+          - .config/borgmatic/config.yaml
+  - name: borgmatic-run
+    compile: false
+    variants:
+      - name: local
+        links:
+          - .local/bin/borgmatic-run
+  - name: local.borgmatic.home.plist
+    compile: false
+    variants:
+      - name: local
+        links:
+          - Library/LaunchAgents/local.borgmatic.home.plist
 secrets:
   - .zshrc.local.secrets
