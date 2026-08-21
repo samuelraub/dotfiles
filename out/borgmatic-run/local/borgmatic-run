@@ -13,6 +13,20 @@ STAMP="$HOME/.local/state/borgmatic-last-success"
 MIN_INTERVAL=$(( 12 * 3600 ))
 mkdir -p "${STAMP:h}"
 
+# Capture this BEFORE the tee redirect below, because once stdout is a pipe
+# `[[ -t 1 ]]` is false and the verbosity choice further down would break.
+INTERACTIVE=0
+[[ -t 1 ]] && INTERACTIVE=1
+
+# launchd already redirects our stdout into this log. Interactive runs (`bb`)
+# would otherwise leave no trace, making `bs`'s log tail disagree with its own
+# "last success" line - so tee them in too.
+LOG="$HOME/Library/Logs/borgmatic.log"
+if (( INTERACTIVE )); then
+  exec > >(tee -a "$LOG") 2>&1
+fi
+echo "$(date '+%F %T') --- run start ---"
+
 age() {   # seconds since last success; huge if never
   if [[ -f "$STAMP" ]]; then echo $(( $(date +%s) - $(<"$STAMP") )); else echo 999999999; fi
 }
@@ -38,7 +52,7 @@ fi
 
 # Interactive (`bb`) wants to see progress; launchd wants a quiet log it can be
 # grepped later. Pick by whether stdout is a terminal.
-if [[ -t 1 ]]; then
+if (( INTERACTIVE )); then
   ARGS=(--verbosity 1 --stats)
 else
   ARGS=(--verbosity 0 --syslog-verbosity 1)
