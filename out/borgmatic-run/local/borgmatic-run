@@ -36,7 +36,15 @@ if [[ -e "$REPO/lock.exclusive" ]] && ! pgrep -x borg >/dev/null; then
   /opt/homebrew/bin/borg break-lock "$REPO"
 fi
 
-/usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic --verbosity 0 --syslog-verbosity 1
+# Interactive (`bb`) wants to see progress; launchd wants a quiet log it can be
+# grepped later. Pick by whether stdout is a terminal.
+if [[ -t 1 ]]; then
+  ARGS=(--verbosity 1 --stats)
+else
+  ARGS=(--verbosity 0 --syslog-verbosity 1)
+fi
+
+/usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic "${ARGS[@]}"
 rc=$?
 
 if (( rc == 0 )); then
