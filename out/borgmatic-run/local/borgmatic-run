@@ -58,11 +58,13 @@ else
   ARGS=(--verbosity 0 --syslog-verbosity 1)
 fi
 
+START=$(date +%s)
 /usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic "${ARGS[@]}"
 rc=$?
 
 if (( rc == 0 )); then
   date +%s > "$STAMP"
+  echo "$(date '+%F %T') run finished ok, took $(( $(date +%s) - START ))s"
 else
   echo "$(date '+%F %T') borgmatic exited $rc"
 fi
