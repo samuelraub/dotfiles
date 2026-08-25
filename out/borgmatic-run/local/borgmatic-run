@@ -27,6 +27,22 @@ if (( INTERACTIVE )); then
 fi
 echo "$(date '+%F %T') --- run start ---"
 
+# StartOnMount can fire an automatic run right as `bb` is typed by hand, and
+# both would otherwise race for borg's own repo lock - the loser fails with
+# a lock timeout instead of just waiting its turn. Guard with our own lock.
+RUNLOCK="$HOME/.local/state/borgmatic-run.lock"
+if ! mkdir "$RUNLOCK" 2>/dev/null; then
+  OTHER_PID=$(<"$RUNLOCK/pid" 2>/dev/null)
+  if [[ -n "$OTHER_PID" ]] && kill -0 "$OTHER_PID" 2>/dev/null; then
+    echo "$(date '+%F %T') another run (pid $OTHER_PID) is already in progress - skipping"
+    exit 0
+  fi
+  rm -rf "$RUNLOCK"
+  mkdir "$RUNLOCK"
+fi
+echo $$ > "$RUNLOCK/pid"
+trap 'rm -rf "$RUNLOCK"' EXIT
+
 age() {   # seconds since last success; huge if never
   if [[ -f "$STAMP" ]]; then echo $(( $(date +%s) - $(<"$STAMP") )); else echo 999999999; fi
 }
