@@ -70,9 +70,12 @@ exclude_patterns:
 
     # macOS TCC-protected: unreadable without Full Disk Access, and borg exits
     # 105 ("Backup permission issue") if it tries. 146 paths total; 95 of them
-    # are Apple sandbox containers covered by these three globs.
-    - sh:/Users/samuelraub/Library/Containers/com.apple.*
-    - sh:/Users/samuelraub/Library/Group Containers/*com.apple.*
+    # were Apple sandbox containers covered by a `com.apple.*`-scoped glob -
+    # widened to all containers (not just Apple's) since third-party ones
+    # (1Password, WISO Steuer, Docker, Teams, ...) are either reproducible or
+    # not worth the "wants to access data from other apps" prompt every run.
+    - sh:/Users/samuelraub/Library/Containers/*
+    - sh:/Users/samuelraub/Library/Group Containers/*
     - sh:/Users/samuelraub/Library/Application Support/com.apple.*
     # the remainder, explicitly (Caches/* and .Trash already excluded above):
     - /Users/samuelraub/Library/Accounts
