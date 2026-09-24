@@ -63,6 +63,12 @@ files:
       - name: default
         links:
           - .config/mise
+  - name: gitignore
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .config/git/ignore
   - name: Brewfile
     compile: false
     variants:
