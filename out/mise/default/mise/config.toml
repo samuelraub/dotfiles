@@ -6,7 +6,6 @@ idiomatic_version_file_enable_tools = []
 age = "1.2.1"
 eza = "0.23.0"
 fd = "10.2.0"
-ffmpeg = "7.1.1"
 fzf = "0.65.1"
 jq = "1.8.1"
 lazydocker = "0.25.2"
