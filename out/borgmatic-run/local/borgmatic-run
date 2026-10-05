@@ -74,6 +74,11 @@ else
   ARGS=(--verbosity 0 --syslog-verbosity 1)
 fi
 
+# The ping URL is a secret and this repo is public, so it lives in the
+# keychain rather than in borgmatic's config. No entry means no pings.
+HC_URL=$(security find-generic-password -a samuelraub -s borg-healthchecks -w 2>/dev/null)
+[[ -n "$HC_URL" ]] && ARGS+=(--healthchecks.ping-url "$HC_URL")
+
 START=$(date +%s)
 /usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic "${ARGS[@]}"
 rc=$?
