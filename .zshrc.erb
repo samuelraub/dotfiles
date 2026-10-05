@@ -56,14 +56,23 @@ alias zrc="v ~/dotfiles/.zshrc.erb"
 
 TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "yazi" "less" "claude")
 
-zz() {
-  tmux list-panes -a -F '#{session_name}:#{window_index}.#{pane_index} #{pane_pid}' | while read -r pane pid; do
+# z into a dir in every pane not running a TUI; extra args scope list-panes
+_zz_panes() {
+  local dir=$1
+  shift
+  tmux list-panes "$@" -F '#{session_name}:#{window_index}.#{pane_index} #{pane_pid}' | while read -r pane pid; do
     if ! pgrep -P "$pid" -f "$(printf "%s|" "${TUI_PROCESSES[@]}" | sed 's/|$//')" >/dev/null; then
-      tmux send-keys -t "$pane" "z '$1'" C-m
+      tmux send-keys -t "$pane" "z '$dir'" C-m
       tmux send-keys -t "$pane" "clear" C-m
     fi
   done
 }
+
+# current window only
+zz() { _zz_panes "$1" }
+
+# all windows
+zzz() { _zz_panes "$1" -a }
 
 alias internet="ping 8.8.8.8"
 
