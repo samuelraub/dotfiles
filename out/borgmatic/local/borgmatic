@@ -4,6 +4,13 @@ source_directories:
 repositories:
     - path: /Volumes/Elements SE/borg/home
       label: elements
+    - path: ssh://storage/./mac-home
+      label: storagebox
+
+# Unattended runs can't answer a 1Password agent prompt, so bypass the agent
+# and use the on-disk key. Host, user and port come from ~/.ssh/config.
+ssh_command: ssh -o IdentityAgent=none -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/storage -o BatchMode=yes -o ConnectTimeout=10 -o ServerAliveInterval=60
+remote_path: borg-1.4
 
 encryption_passcommand: security find-generic-password -a samuelraub -s borg-home -w
 

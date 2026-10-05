@@ -1,5 +1,6 @@
 #!/bin/zsh
-# Scheduled/manual driver for the home borg backup.
+# Scheduled/manual driver for the home borg backup. Each repository is run on
+# its own, so the drive being unplugged doesn't hold back the storage box.
 # Triggers: launchd StartCalendarInterval (13:00), StartOnMount, RunAtLoad.
 # The 12h throttle keeps the extra triggers cheap; --force bypasses it.
 
@@ -8,10 +9,15 @@
 # dies with "No such file or directory: 'borg'".
 export PATH="/opt/homebrew/bin:$PATH"
 
-REPO="/Volumes/Elements SE/borg/home"
-STAMP="$HOME/.local/state/borgmatic-last-success"
+# Labels and paths as in borgmatic's config
+REPOS=(elements storagebox)
+typeset -A LOCATION=(
+  elements   "/Volumes/Elements SE/borg/home"
+  storagebox "ssh://storage/./mac-home"
+)
+STATE="$HOME/.local/state"
 MIN_INTERVAL=$(( 12 * 3600 ))
-mkdir -p "${STAMP:h}"
+mkdir -p "$STATE"
 
 # Capture this BEFORE the tee redirect below, because once stdout is a pipe
 # `[[ -t 1 ]]` is false and the verbosity choice further down would break.
@@ -29,65 +35,117 @@ echo "$(date '+%F %T') --- run start ---"
 
 # StartOnMount can fire an automatic run right as `bb` is typed by hand, and
 # both would otherwise race for borg's own repo lock - the loser fails with
-# a lock timeout instead of just waiting its turn. Guard with our own lock.
-RUNLOCK="$HOME/.local/state/borgmatic-run.lock"
-if ! mkdir "$RUNLOCK" 2>/dev/null; then
-  OTHER_PID=$(<"$RUNLOCK/pid" 2>/dev/null)
-  if [[ -n "$OTHER_PID" ]] && kill -0 "$OTHER_PID" 2>/dev/null; then
-    echo "$(date '+%F %T') another run (pid $OTHER_PID) is already in progress - skipping"
-    exit 0
+# a lock timeout instead of just waiting its turn. Guard with our own lock,
+# one per repository so a long upload doesn't block the drive.
+HELD=""
+trap '[[ -n "$HELD" ]] && rm -rf "$HELD"' EXIT
+acquire() {
+  local lock="$STATE/borgmatic-run-$1.lock"
+  if ! mkdir "$lock" 2>/dev/null; then
+    OTHER_PID=$(<"$lock/pid" 2>/dev/null)
+    [[ -n "$OTHER_PID" ]] && kill -0 "$OTHER_PID" 2>/dev/null && return 1
+    rm -rf "$lock"
+    mkdir "$lock"
   fi
-  rm -rf "$RUNLOCK"
-  mkdir "$RUNLOCK"
-fi
-echo $$ > "$RUNLOCK/pid"
-trap 'rm -rf "$RUNLOCK"' EXIT
+  echo $$ > "$lock/pid"
+  HELD="$lock"
+}
+release() {
+  rm -rf "$HELD"
+  HELD=""
+}
 
-age() {   # seconds since last success; huge if never
-  if [[ -f "$STAMP" ]]; then echo $(( $(date +%s) - $(<"$STAMP") )); else echo 999999999; fi
+age() {   # seconds since the stamp's last success; huge if never
+  if [[ -f "$1" ]]; then echo $(( $(date +%s) - $(<"$1") )); else echo 999999999; fi
+}
+
+available() {
+  case "$1" in
+    elements) [[ -d "$LOCATION[elements]" ]] ;;
+    # same ssh options as borgmatic's ssh_command
+    storagebox) ssh -o IdentityAgent=none -o IdentitiesOnly=yes -o IdentityFile=~/.ssh/storage \
+                    -o BatchMode=yes -o ConnectTimeout=10 storage df >/dev/null 2>&1 ;;
+  esac
 }
 
 FORCE=0
 [[ "$1" == "--force" || "$1" == "-f" ]] && FORCE=1
 
-if [[ ! -d "$REPO" ]]; then
-  echo "$(date '+%F %T') drive not mounted - skipping"
-  exit 0
-fi
-
-if (( ! FORCE )) && (( $(age) < MIN_INTERVAL )); then
-  echo "$(date '+%F %T') last success $(age)s ago - skipping"
-  exit 0
-fi
-
-# A lock with no live borg process on this host is stale by definition
-if [[ -e "$REPO/lock.exclusive" ]] && ! pgrep -x borg >/dev/null; then
-  echo "$(date '+%F %T') clearing stale lock"
-  /opt/homebrew/bin/borg break-lock "$REPO"
-fi
-
 # Interactive (`bb`) wants to see progress; launchd wants a quiet log it can be
 # grepped later. Pick by whether stdout is a terminal.
 if (( INTERACTIVE )); then
-  ARGS=(--verbosity 1 --stats)
+  ARGS=(--verbosity 1)
+  STATS=(--stats)
 else
   ARGS=(--verbosity 0 --syslog-verbosity 1)
+  STATS=()
 fi
 
 # The ping URL is a secret and this repo is public, so it lives in the
-# keychain rather than in borgmatic's config. No entry means no pings.
+# keychain. No entry means no pings. We ping ourselves rather than through
+# borgmatic, since one check has to cover every repository.
 HC_URL=$(security find-generic-password -a samuelraub -s borg-healthchecks -w 2>/dev/null)
-[[ -n "$HC_URL" ]] && ARGS+=(--healthchecks.ping-url "$HC_URL")
+hc_ping() {
+  [[ -n "$HC_URL" ]] && curl -fsS -m 10 --retry 3 -o /dev/null "${HC_URL%/}$1"
+}
 
-START=$(date +%s)
-/usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic "${ARGS[@]}"
-rc=$?
+worst=0
+ran=0
+stale=0
+for label in $REPOS; do
+  stamp="$STATE/borgmatic-last-success-$label"
 
-if (( rc == 0 )); then
-  date +%s > "$STAMP"
-  echo "$(date '+%F %T') run finished ok, took $(( $(date +%s) - START ))s"
-else
-  echo "$(date '+%F %T') borgmatic exited $rc"
+  if (( ! FORCE )) && (( $(age "$stamp") < MIN_INTERVAL )); then
+    echo "$(date '+%F %T') $label: last success $(age "$stamp")s ago - skipping"
+    continue
+  fi
+
+  if ! acquire "$label"; then
+    echo "$(date '+%F %T') $label: another run (pid $OTHER_PID) is already in progress - skipping"
+    stale=1
+    continue
+  fi
+
+  if ! available "$label"; then
+    echo "$(date '+%F %T') $label: not reachable - skipping"
+    stale=1
+    release
+    continue
+  fi
+
+  # We hold the run lock, so a borg lock is stale unless something else on
+  # this host (a manual borg, `bs`) has the repository open right now.
+  if ! pgrep -f -- "$LOCATION[$label]" >/dev/null; then
+    /opt/homebrew/bin/borgmatic --verbosity 0 break-lock --repository "$label"
+  fi
+
+  # --repository only exists per action, so spell out the default actions
+  START=$(date +%s)
+  /usr/bin/caffeinate -i -m -s /opt/homebrew/bin/borgmatic "${ARGS[@]}" \
+    create --repository "$label" "${STATS[@]}" \
+    prune --repository "$label" "${STATS[@]}" \
+    compact --repository "$label" \
+    check --repository "$label"
+  rc=$?
+  ran=1
+
+  if (( rc == 0 )); then
+    date +%s > "$stamp"
+    echo "$(date '+%F %T') $label: run finished ok, took $(( $(date +%s) - START ))s"
+  else
+    echo "$(date '+%F %T') $label: borgmatic exited $rc"
+    (( rc > worst )) && worst=$rc
+  fi
+  release
+done
+
+# Green only while every repository is fresh: one that was skipped as
+# unreachable or busy just withholds the success ping, so the check times out
+# on its own schedule.
+if (( worst )); then
+  hc_ping /fail
+elif (( ran && ! stale )); then
+  hc_ping ""
 fi
 
-exit $rc
+exit $worst
