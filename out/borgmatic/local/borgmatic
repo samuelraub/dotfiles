@@ -23,6 +23,13 @@ compression: auto,zstd,3
 archive_name_format: '{hostname}-home-{now}'
 lock_wait: 5
 
+# Ride out connection drops on the DSL line: retry_wait grows by itself each
+# time, so 10 retries cover about an hour. Frequent checkpoints keep what a
+# short-lived run managed to upload.
+retries: 10
+retry_wait: 60
+checkpoint_interval: 300
+
 # Borg 105 = "Backup permission issue": the archive committed fine, but some
 # files couldn't be opened (macOS TCC). Borg classes 100+ as warnings; borgmatic
 # escalates most of them to errors by default. On macOS that means a permanently
