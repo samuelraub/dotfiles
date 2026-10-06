@@ -4,6 +4,18 @@
 
 
 
+# PROMPT
+# zsh builtins only, nothing to install on the server
+autoload -Uz vcs_info add-zsh-hook
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:git:*' formats ' %F{242}%b%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{242}%b|%a%f'
+add-zsh-hook precmd vcs_info
+setopt prompt_subst
+# host is red for root; the prompt char turns red after a failed command
+PROMPT=$'\n%(!.%F{red}.%F{yellow})%n@%m%f %F{blue}%~%f${vcs_info_msg_0_}\n%(?.%F{magenta}.%F{red})%#%f '
+
+
 # Exports
 export EDITOR='vim'
 
