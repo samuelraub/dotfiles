@@ -27,8 +27,9 @@ borgmatic and qmk, Ruby for fastlane) are fine. mise is ahead of Homebrew on
 ## New machine
 
 1. Install Homebrew, then `brew bundle install --file=~/dotfiles/Brewfile`
-2. `ln -s ./dotfiles/.dotfiles.yml ~/.dotfiles.yml` (the gem only reads the
-   manifest from there), then `dotdotdotfiles compile && dotdotdotfiles link`
+2. `cd ~/dotfiles && dotdotdotfiles compile && dotdotdotfiles link` (the gem
+   picks up `.dotfiles.yml` from the current directory; `link` then symlinks
+   `~/.dotfiles.yml` to it, so later runs work from anywhere)
 3. `mise install`
 4. Install Determinate Nix; `direnv allow` in the projects whose flake you use
 
