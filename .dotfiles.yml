@@ -9,6 +9,11 @@ files:
         links:
           - .zshrc
       - name: server
+  - name: .zprofile
+    variants:
+      - name: local
+        links:
+          - .zprofile
   - name: .tmux.conf
     variants:
       - name: default
@@ -20,37 +25,16 @@ files:
         links:
           - .vimrc
       - name: server
-  - name: .ideavimrc
-    variants:
-      - name: local
-        links:
-          - .ideavimrc
   - name: .tmuxinator.yml
     variants:
       - name: local
         links:
           - .tmuxinator.yml
-  - name: .alacritty.toml
-    variants:
-      - name: local
-        links:
-          - .alacritty.toml
   - name: .kmonad.kbd
     variants:
       - name: local
         links:
           - .kmonad.kbd
-  - name: ghostty
-    variants:
-      - name: local
-        links:
-          - .config/ghostty/config
-  - name: nvim
-    compile: false
-    variants:
-      - name: default
-        links:
-          - .config/nvim
   - name: kitty
     compile: false
     variants:

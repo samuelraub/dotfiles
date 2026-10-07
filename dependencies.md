@@ -1,15 +1,44 @@
 # Dependencies
 
-Homebrew packages (formulae, casks, taps) are tracked in the [`Brewfile`](./Brewfile).
+Three tools, one job each.
 
-Install everything on a new system (after installing Homebrew itself):
+| Tool         | Owns                                                                                                              | Declared in                                                           |
+| ------------ | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **mise**     | Language runtimes, package managers, language servers and formatters: anything a project may pin at a version      | `out/mise/default/mise/config.toml` (global), `mise.toml` per project |
+| **Homebrew** | Machine-wide CLIs, apps (casks), shell plugins, build libraries                                                   | [`Brewfile`](./Brewfile)                                              |
+| **Nix**      | Per-project dev shells that need native libraries. Nothing at user or system level                                | `flake.nix` per project, entered via direnv                           |
 
-```sh
-brew bundle install --file=~/dotfiles/Brewfile
-```
+Where does a new tool go?
 
-Refresh the Brewfile after installing/removing tools:
+- Would a project ever pin its version? → mise
+- Is it just a tool I want everywhere? → Homebrew
+- Does the project need a C/C++ toolchain or system libraries? → Nix flake
 
-```sh
-brew bundle dump --describe --force --file=~/dotfiles/Brewfile
-```
+One exception: `terraform` lives in mise. It is not in homebrew-core any more
+and is version-sensitive per project.
+
+`rm` is aliased to Homebrew's `trash` by full path: the formula is keg-only,
+and the built-in `/usr/bin/trash` rejects `rm` flags like `-rf`.
+
+Runtimes that Homebrew installs as dependencies of other formulae (Python for
+borgmatic and qmk, Ruby for fastlane) are fine. mise is ahead of Homebrew on
+`PATH`, so they never answer to `python3` or `ruby`.
+
+## New machine
+
+1. Install Homebrew, then `brew bundle install --file=~/dotfiles/Brewfile`
+2. `ln -s ./dotfiles/.dotfiles.yml ~/.dotfiles.yml` (the gem only reads the
+   manifest from there), then `dotdotdotfiles compile && dotdotdotfiles link`
+3. `mise install`
+4. Install Determinate Nix; `direnv allow` in the projects whose flake you use
+
+## Day to day
+
+- `bi <formula>` installs with Homebrew and adds it to the Brewfile
+  (`HOMEBREW_BUNDLE_FILE` points at it). Avoid `brew bundle dump --force`: it
+  drops the `trusted: true` marker on red-cli, and the next
+  `brew bundle cleanup` then removes the trust.
+- `mise use -g <tool>@<version>` for a global runtime or language server,
+  `mise use <tool>@<version>` inside a project.
+- Team flakes in work projects stay untouched; only `direnv allow` a project
+  when its Nix shell is the one you want there.

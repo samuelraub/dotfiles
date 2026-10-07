@@ -88,12 +88,11 @@ zzz() { _zz_panes "$1" -a }
 
 alias internet="ping 8.8.8.8"
 
-alias rm="trash"
+alias rm="/opt/homebrew/opt/trash/bin/trash"
 alias ld="lazydocker"
 alias lg="lazygit"
 alias tmx="tmuxinator"
 alias v='NVIM_APPNAME="nvim-kickstart" nvim'
-alias vv="nvim"
 
 alias br="bin/rails"
 alias bex="bundle exec"
@@ -101,9 +100,10 @@ alias bex="bundle exec"
 alias dfc="dotdotdotfiles compile -p"
 alias ddd="dotdotdotfiles"
 
-# brew install + refresh the tracked Brewfile
+# brew install + add to the tracked Brewfile; a full dump drops trusted: markers
+export HOMEBREW_BUNDLE_FILE=~/dotfiles/Brewfile
 bi() {
-  brew install "$@" && brew bundle dump --force --file=~/dotfiles/Brewfile
+  brew install "$@" && brew bundle add "$@"
 }
 
 # run the home backup now, bypassing the 12h throttle
@@ -149,16 +149,13 @@ bs() {
 export PNPM_HOME="/Users/samuelraub/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *) export PATH="$PATH:$PNPM_HOME" ;;
 esac
 <% end %>
 
 <% if v[:local] %>
 # psql
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# golang go
-export PATH="/Users/samuelraub/go/bin:$PATH"
 
 # 1Password
 source /Users/samuelraub/.config/op/plugins.sh
@@ -178,6 +175,7 @@ autoload -Uz compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 <% end %>
 
 # vim: set filetype=bash.eruby:
