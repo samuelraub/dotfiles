@@ -75,5 +75,11 @@ files:
       - name: local
         links:
           - Library/LaunchAgents/local.borgmatic.home.plist
+  - name: .gemrc
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .gemrc
 secrets:
   - .zshrc.local.secrets
