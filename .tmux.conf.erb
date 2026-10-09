@@ -86,6 +86,8 @@ bind-key -T copy-mode-vi 'C-\' select-pane -l
 set -g default-terminal "tmux-256color"
 set -g @rose_pine_variant 'main'
 set -g @rose_pine_date_time '%d-%m %H:%M'
+# current time-tracking entry; prints nothing when clocked out or not installed
+set -g @rose_pine_status_right_prepend_section '#[fg=#f6c177]#(~/.local/bin/trackit status --tmux) '
 
 # TPM Plugin Manager
 # List of plugins
