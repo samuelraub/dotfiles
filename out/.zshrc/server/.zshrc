@@ -2,8 +2,6 @@
 
 
 
-
-
 # PROMPT
 # zsh builtins only, nothing to install on the server
 autoload -Uz vcs_info add-zsh-hook

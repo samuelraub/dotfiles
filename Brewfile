@@ -125,8 +125,6 @@ brew "tree"
 brew "tree-sitter-cli"
 # Tool for writing command-line pipes with instant live preview
 brew "up"
-# Blazing fast terminal file manager written in Rust, based on async I/O
-brew "yazi"
 # Feature-rich command-line audio/video downloader
 brew "yt-dlp"
 # Pluggable terminal workspace, with terminal multiplexer as the base feature
@@ -149,3 +147,5 @@ cask "1password-cli"
 cask "android-platform-tools"
 # App for managing battery charging. (Also installs a CLI on first use.)
 cask "battery"
+# Modern and pretty fancy file manager for the terminal
+brew "superfile"

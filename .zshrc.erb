@@ -10,18 +10,6 @@ source <(fzf --zsh)
 <% end %>
 
 <% if v[:local] %>
-# yazi file manager
-function y() {
-    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-   yazi "$@" --cwd-file="$tmp"
-    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-      builtin cd -- "$cwd"
-    fi
-    rm -f -- "$tmp"
-}
-<% end %>
-
-<% if v[:local] %>
 # PROMPT
 fpath+=("$(brew --prefix)/share/zsh/site-functions")
 autoload -U promptinit
@@ -67,7 +55,7 @@ alias doco="docker compose"
 <% if v[:local] %>
 alias zrc="v ~/dotfiles/.zshrc.erb"
 
-TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "yazi" "less" "claude")
+TUI_PROCESSES=("htop" "lazydocker" "lazygit" "nvim" "vim" "spf" "less" "claude")
 
 # z into a dir in every pane not running a TUI; extra args scope list-panes
 _zz_panes() {
