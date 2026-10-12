@@ -115,7 +115,8 @@ bs() {
   tail -5 ~/Library/Logs/borgmatic.log 2>/dev/null || echo '(no log yet)'
   echo '--- archives ---'
   for label in elements storagebox; do
-    borgmatic repo-list --repository $label --last 3 2>/dev/null || echo "$label: unavailable (offline or busy)"
+    # the config's retries would sit out a busy repo for close to an hour
+    borgmatic --retries 0 repo-list --repository $label --last 3 2>/dev/null || echo "$label: unavailable (offline or busy)"
   done
 }
 
