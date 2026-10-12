@@ -32,6 +32,7 @@ alias kc="kubectl"
 alias dops="docker ps -a"
 alias dopss='docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}"'
 alias doco="docker compose"
+alias lg="lazygit"
 
 
 

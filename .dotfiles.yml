@@ -53,6 +53,12 @@ files:
       - name: default
         links:
           - .config/git/ignore
+  - name: lazygit
+    compile: false
+    variants:
+      - name: default
+        links:
+          - Library/Application Support/lazygit/config.yml
   - name: Brewfile
     compile: false
     variants:
