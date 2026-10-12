@@ -149,3 +149,5 @@ cask "android-platform-tools"
 cask "battery"
 # Modern and pretty fancy file manager for the terminal
 brew "superfile"
+# OpenBSD freely-licensed SSH connectivity tools
+brew "openssh"
