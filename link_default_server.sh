@@ -1,3 +1,4 @@
+#!/bin/sh
 rm -rf ~/.zshrc
 ln -s ~/dotfiles/out/.zshrc/server/.zshrc ~/.zshrc
 rm -rf ~/.tmux.conf
