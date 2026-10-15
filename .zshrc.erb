@@ -76,6 +76,8 @@ zz() { _zz_panes "$1" }
 # all windows
 zzz() { _zz_panes "$1" -a }
 
+tw() { tmux rename-window -t "$TMUX_PANE" -- "$*" }
+
 alias internet="ping 8.8.8.8"
 
 alias rm="/opt/homebrew/opt/trash/bin/trash"
