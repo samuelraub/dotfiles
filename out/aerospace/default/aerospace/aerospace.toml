@@ -1,0 +1,135 @@
+# Reference: https://nikitabobko.github.io/AeroSpace/guide
+# Hyper (cmd-alt-ctrl-shift) only: plain alt types umlauts on the
+# "U.S. with German Umlauts" layout.
+
+config-version = 2
+
+after-startup-command = []
+start-at-login = false
+auto-reload-config = true
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+accordion-padding = 30
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+automatically-unhide-macos-hidden-apps = false
+
+# One workspace per app, lettered like the old Alfred AppSwitcher hotkeys.
+persistent-workspaces = ["A", "B", "C", "F", "G", "P", "R", "S", "T", "Z"]
+
+on-mode-changed = []
+focus-follows-mouse.enabled = false
+
+# Keycode based, same as Alfred hotkeys, so ZMK letters line up.
+key-mapping.preset = 'qwerty'
+
+gaps.inner.horizontal = 8
+gaps.inner.vertical =   8
+gaps.outer.left =       8
+gaps.outer.bottom =     8
+gaps.outer.top =        8
+gaps.outer.right =      8
+
+[mode.main.binding]
+    # Jump to the app's workspace; launch the app if it isn't running.
+    cmd-alt-ctrl-shift-a = ['workspace A', 'exec-and-forget pgrep -xq thunderbird || open -a Thunderbird']
+    cmd-alt-ctrl-shift-b = ['workspace B', 'exec-and-forget pgrep -xq firefox || open -a Firefox']
+    cmd-alt-ctrl-shift-c = ['workspace C', 'exec-and-forget pgrep -xq Calendar || open -a Calendar']
+    cmd-alt-ctrl-shift-f = ['workspace F', 'exec-and-forget pgrep -xq Finder || open -a Finder']
+    cmd-alt-ctrl-shift-g = ['workspace G', 'exec-and-forget pgrep -xq "Google Chrome" || open -a "Google Chrome"']
+    cmd-alt-ctrl-shift-p = ['workspace P', 'exec-and-forget pgrep -xq 1Password || open -a 1Password']
+    cmd-alt-ctrl-shift-r = ['workspace R', 'exec-and-forget pgrep -xq Reminders || open -a Reminders']
+    cmd-alt-ctrl-shift-s = ['workspace S', 'exec-and-forget pgrep -xq Signal || open -a Signal']
+    cmd-alt-ctrl-shift-t = ['workspace T', 'exec-and-forget pgrep -xq kitty || open -a kitty']
+    cmd-alt-ctrl-shift-z = ['workspace Z', 'exec-and-forget pgrep -xq Telegram || open -a Telegram']
+
+    cmd-alt-ctrl-shift-left =  'focus left'
+    cmd-alt-ctrl-shift-down =  'focus down'
+    cmd-alt-ctrl-shift-up =    'focus up'
+    cmd-alt-ctrl-shift-right = 'focus right'
+
+    cmd-alt-ctrl-shift-tab = 'workspace-back-and-forth'
+
+    # Hyper uses every modifier, so moving windows lives in a mode.
+    cmd-alt-ctrl-shift-m = 'mode wm'
+
+# Every action returns to main, except resize.
+[mode.wm.binding]
+    esc = ['reload-config', 'mode main']
+
+    left =  ['move left', 'mode main']
+    down =  ['move down', 'mode main']
+    up =    ['move up', 'mode main']
+    right = ['move right', 'mode main']
+
+    minus = 'resize smart -50'
+    equal = 'resize smart +50'
+
+    space =     ['layout floating tiling', 'mode main']
+    enter =     ['fullscreen', 'mode main']
+    slash =     ['layout tiles horizontal vertical', 'mode main']
+    comma =     ['layout accordion horizontal vertical', 'mode main']
+    backspace = ['flatten-workspace-tree', 'mode main']
+
+    a = ['move-node-to-workspace --focus-follows-window A', 'mode main']
+    b = ['move-node-to-workspace --focus-follows-window B', 'mode main']
+    c = ['move-node-to-workspace --focus-follows-window C', 'mode main']
+    f = ['move-node-to-workspace --focus-follows-window F', 'mode main']
+    g = ['move-node-to-workspace --focus-follows-window G', 'mode main']
+    p = ['move-node-to-workspace --focus-follows-window P', 'mode main']
+    r = ['move-node-to-workspace --focus-follows-window R', 'mode main']
+    s = ['move-node-to-workspace --focus-follows-window S', 'mode main']
+    t = ['move-node-to-workspace --focus-follows-window T', 'mode main']
+    z = ['move-node-to-workspace --focus-follows-window Z', 'mode main']
+
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.thunderbird'
+    run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.firefox'
+    run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.iCal'
+    run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.finder'
+    run = 'move-node-to-workspace F'
+
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome'
+    run = 'move-node-to-workspace G'
+
+[[on-window-detected]]
+    if.app-id = 'com.1password.1password'
+    run = 'move-node-to-workspace P'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.reminders'
+    run = 'move-node-to-workspace R'
+
+[[on-window-detected]]
+    if.app-id = 'org.whispersystems.signal-desktop'
+    run = 'move-node-to-workspace S'
+
+[[on-window-detected]]
+    if.app-id = 'net.kovidgoyal.kitty'
+    run = 'move-node-to-workspace T'
+
+[[on-window-detected]]
+    if.app-id = 'com.tdesktop.Telegram'
+    run = 'move-node-to-workspace Z'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.systempreferences'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.runningwithcrayons.Alfred-Preferences'
+    run = 'layout floating'

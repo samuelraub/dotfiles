@@ -41,6 +41,12 @@ files:
       - name: default
         links:
           - .config/kitty
+  - name: aerospace
+    compile: false
+    variants:
+      - name: default
+        links:
+          - .config/aerospace
   - name: mise
     compile: false
     variants:

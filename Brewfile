@@ -1,6 +1,7 @@
 tap "derailed/k9s"
 tap "heroku/brew"
 tap "mrjefflarry/redmine-cli", "https://github.com/mrjefflarry/redmine-cli"
+tap "nikitabobko/tap"
 # Simple, modern, secure file encryption
 brew "age"
 # Automatic configure script builder
@@ -147,6 +148,8 @@ cask "1password-cli"
 cask "android-platform-tools"
 # App for managing battery charging. (Also installs a CLI on first use.)
 cask "battery"
+# i3-like tiling window manager
+cask "nikitabobko/tap/aerospace"
 # Modern and pretty fancy file manager for the terminal
 brew "superfile"
 # OpenBSD freely-licensed SSH connectivity tools
