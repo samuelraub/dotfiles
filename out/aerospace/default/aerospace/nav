@@ -1,0 +1,26 @@
+#!/bin/sh
+# Ctrl-arrows: AeroSpace windows, except in kitty, where tmux and
+# vim-tmux-navigator keep them. AeroSpace bindings can't be per app.
+# Usage: nav left|down|up|right
+
+# AeroSpace runs this with the bare launchd PATH.
+PATH=/opt/homebrew/bin:$PATH
+
+case $1 in
+  left) key=C-Left ;;
+  down) key=C-Down ;;
+  up) key=C-Up ;;
+  right) key=C-Right ;;
+  *) echo "usage: nav left|down|up|right" >&2; exit 2 ;;
+esac
+
+app=$(aerospace list-windows --focused --format '%{app-bundle-id}' 2>/dev/null)
+
+if [ "$app" = net.kovidgoyal.kitty ]; then
+  client=$(tmux list-clients -F '#{client_activity} #{client_name}' 2>/dev/null |
+    sort -rn | head -n 1 | cut -d ' ' -f 2)
+  # -K replays the key through the client, so tmux's own bindings run.
+  [ -n "$client" ] && exec tmux send-keys -K -c "$client" "$key"
+fi
+
+exec aerospace focus --boundaries all-monitors-outer-frame "$1"

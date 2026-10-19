@@ -56,6 +56,12 @@ gaps.outer.right =      8
     cmd-alt-ctrl-shift-up =    'focus up'
     cmd-alt-ctrl-shift-right = 'focus right'
 
+    # Like vim-tmux-navigator, but for windows; nav hands kitty's keys to tmux.
+    ctrl-left =  'exec-and-forget ~/.config/aerospace/nav left'
+    ctrl-down =  'exec-and-forget ~/.config/aerospace/nav down'
+    ctrl-up =    'exec-and-forget ~/.config/aerospace/nav up'
+    ctrl-right = 'exec-and-forget ~/.config/aerospace/nav right'
+
     # Cycle windows on this workspace, floating ones included; replaces macOS cmd-`.
     cmd-alt-ctrl-shift-w = 'focus --wrap-around dfs-next'
     cmd-alt-ctrl-shift-q = 'focus --wrap-around dfs-prev'

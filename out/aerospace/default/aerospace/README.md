@@ -25,12 +25,13 @@ System Settings and Alfred Preferences float over whatever workspace you're on.
 
 ## Everyday
 
-| Keys          | Action                                   |
-| ------------- | ---------------------------------------- |
-| Hyper + ←↓↑→  | focus window                             |
-| Hyper + W / Q | next / previous window on this workspace |
-| Hyper + Tab   | previous workspace                       |
-| Hyper + Space | enter move mode                          |
+| Keys          | Action                                                  |
+| ------------- | ------------------------------------------------------- |
+| Hyper + ←↓↑→  | focus window                                            |
+| Ctrl + ←↓↑→   | focus window; in kitty, tmux pane or Neovim split       |
+| Hyper + W / Q | next / previous window on this workspace                |
+| Hyper + Tab   | previous workspace                                      |
+| Hyper + Space | enter move mode                                         |
 
 ## Move mode
 
