@@ -6,7 +6,7 @@ config-version = 2
 
 # Firefox starts on the MacBook screen but stays movable (a force-assignment would lock it).
 after-startup-command = ['move-workspace-to-monitor --workspace B built-in']
-start-at-login = false
+start-at-login = true
 auto-reload-config = true
 
 enable-normalization-flatten-containers = true
