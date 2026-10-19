@@ -120,6 +120,12 @@ gaps.outer.right =      8
     if.app-id = 'com.google.Chrome'
     run = 'move-node-to-workspace G'
 
+# SSH/unlock prompts are titled just "1Password"; hiding them on R makes them time out.
+[[on-window-detected]]
+    if.app-id = 'com.1password.1password'
+    if.window-title-regex-substring = '^1Password$'
+    run = 'layout floating'
+
 [[on-window-detected]]
     if.app-id = 'com.1password.1password'
     run = ['layout floating', 'move-node-to-workspace R']
