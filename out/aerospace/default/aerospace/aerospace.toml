@@ -56,6 +56,10 @@ gaps.outer.right =      8
     cmd-alt-ctrl-shift-up =    'focus up'
     cmd-alt-ctrl-shift-right = 'focus right'
 
+    # Cycle windows on this workspace, floating ones included; replaces macOS cmd-`.
+    cmd-alt-ctrl-shift-w = 'focus --wrap-around dfs-next'
+    cmd-alt-ctrl-shift-q = 'focus --wrap-around dfs-prev'
+
     cmd-alt-ctrl-shift-tab = 'workspace-back-and-forth'
 
     # Hyper uses every modifier, so moving windows lives in a mode.
