@@ -23,4 +23,4 @@ if [ "$app" = net.kovidgoyal.kitty ]; then
   [ -n "$client" ] && exec tmux send-keys -K -c "$client" "$key"
 fi
 
-exec aerospace focus --boundaries all-monitors-outer-frame "$1"
+exec aerospace focus --wrap-around "$1"

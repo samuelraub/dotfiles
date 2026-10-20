@@ -25,13 +25,11 @@ System Settings and Alfred Preferences float over whatever workspace you're on.
 
 ## Everyday
 
-| Keys          | Action                                                  |
-| ------------- | ------------------------------------------------------- |
-| Hyper + ←↓↑→  | focus window                                            |
-| Ctrl + ←↓↑→   | focus window; in kitty, tmux pane or Neovim split       |
-| Hyper + W / Q | next / previous window on this workspace                |
-| Hyper + Tab   | previous workspace                                      |
-| Hyper + Space | enter move mode                                         |
+| Keys          | Action                                                      |
+| ------------- | ----------------------------------------------------------- |
+| Ctrl + ←↓↑→   | focus window, wrapping; in kitty, tmux pane or Neovim split |
+| Hyper + Tab   | previous workspace                                          |
+| Hyper + Space | enter move mode                                             |
 
 ## Move mode
 
@@ -53,30 +51,18 @@ to normal mode right away.
 | Backspace    | reset layout                                                                          |
 | Esc          | reload config and leave                                                               |
 
-## Ctrl-arrows across Neovim, tmux and AeroSpace
+## Ctrl-arrows
 
-Ctrl + ←↓↑→ moves through Neovim splits, then tmux panes, then AeroSpace
-windows, on either screen. Each layer hands over at its edge:
+Ctrl + ←↓↑→ focuses the neighbouring window on the current workspace and wraps
+around at its edge. In kitty, tmux and vim-tmux-navigator keep the keys for
+panes and Neovim splits; they never hand over to AeroSpace.
 
-1. **Neovim** moves between splits. Past the last split it runs the same tmux
-   command as step 2 (`navigate()` in nvim-kickstart's
-   `lua/custom/plugins/init.lua`).
-2. **tmux** moves between panes. In the outer pane (`#{pane_at_left}` etc.) it
-   runs `aerospace focus --boundaries all-monitors-outer-frame` (C-arrow
-   bindings in `.tmux.conf.erb`). Servers without AeroSpace keep wrapping.
-3. **AeroSpace** focuses the neighbouring window, also on the other screen.
-
-AeroSpace bindings are global, so it also catches ctrl-arrows meant for the
-terminal. `nav` sorts them out: with kitty focused, it replays the key into
-tmux (`tmux send-keys -K`), and everywhere else it calls `aerospace focus`.
-kitty is assumed to always run tmux.
+AeroSpace bindings are global, so `nav` sorts the keys out: with kitty focused,
+it replays the key into tmux (`tmux send-keys -K`), and everywhere else it runs
+`aerospace focus --wrap-around`. kitty is assumed to always run tmux.
 
 To switch it off, delete the four `ctrl-…` lines in `aerospace.toml`; kitty
-gets ctrl-arrows back right away. To remove it completely, revert the
-`feat(aerospace): move between windows with ctrl-arrows` commit here and
-`feat: hand ctrl-arrows on to aerospace past the last split` in
-nvim-kickstart, then run `dotdotdotfiles compile` and
-`tmux source-file ~/.tmux.conf`.
+gets ctrl-arrows back right away.
 
 ## Recipes
 
