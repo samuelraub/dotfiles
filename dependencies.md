@@ -20,6 +20,10 @@ and is version-sensitive per project.
 `rm` is aliased to Homebrew's `trash` by full path: the formula is keg-only,
 and the built-in `/usr/bin/trash` rejects `rm` flags like `-rf`.
 
+kitty uses Hack Nerd Font (`font-hack-nerd-font` cask). The tmux theme and
+Neovim (`have_nerd_font`) draw Nerd Font icons, which turn into boxes without
+it.
+
 Runtimes that Homebrew installs as dependencies of other formulae (Python for
 borgmatic and qmk, Ruby for fastlane) are fine. mise is ahead of Homebrew on
 `PATH`, so they never answer to `python3` or `ruby`.

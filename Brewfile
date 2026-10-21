@@ -148,6 +148,8 @@ cask "1password-cli"
 cask "android-platform-tools"
 # App for managing battery charging. (Also installs a CLI on first use.)
 cask "battery"
+# Hack with Nerd Font icons; kitty, tmux and Neovim expect it
+cask "font-hack-nerd-font"
 # i3-like tiling window manager
 cask "nikitabobko/tap/aerospace"
 # Modern and pretty fancy file manager for the terminal
