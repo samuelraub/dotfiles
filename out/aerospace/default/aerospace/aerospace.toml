@@ -101,6 +101,12 @@ gaps.outer.right =      8
     t = ['move-node-to-workspace --focus-follows-window T', 'mode main']
     z = ['move-node-to-workspace --focus-follows-window S', 'mode main']
 
+# Gecko reports dialogs as standard windows, so float the send/save progress by title.
+[[on-window-detected]]
+    if.app-id = 'org.mozilla.thunderbird'
+    if.window-title-regex-substring = '^Nachricht (wird gesendet|wird gespeichert|senden|speichern)'
+    run = ['layout floating', 'move-node-to-workspace A']
+
 [[on-window-detected]]
     if.app-id = 'org.mozilla.thunderbird'
     run = 'move-node-to-workspace A'
@@ -121,15 +127,22 @@ gaps.outer.right =      8
     if.app-id = 'com.google.Chrome'
     run = 'move-node-to-workspace G'
 
-# SSH/unlock prompts are titled just "1Password"; hiding them on R makes them time out.
+# Only the main window ("<vault> — 1Password") lives on R. Prompts and the
+# credential picker float where they open; hidden on R they vanish or time out.
+# Quick Access shares the main window's title suffix, so it goes first.
 [[on-window-detected]]
     if.app-id = 'com.1password.1password'
-    if.window-title-regex-substring = '^1Password$'
+    if.window-title-regex-substring = '^Schnellzugriff'
     run = 'layout floating'
 
 [[on-window-detected]]
     if.app-id = 'com.1password.1password'
+    if.window-title-regex-substring = ' — 1Password$'
     run = ['layout floating', 'move-node-to-workspace R']
+
+[[on-window-detected]]
+    if.app-id = 'com.1password.1password'
+    run = 'layout floating'
 
 [[on-window-detected]]
     if.app-id = 'com.apple.reminders'
