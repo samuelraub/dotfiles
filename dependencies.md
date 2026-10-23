@@ -36,6 +36,8 @@ borgmatic and qmk, Ruby for fastlane) are fine. mise is ahead of Homebrew on
    `~/.dotfiles.yml` to it, so later runs work from anywhere)
 3. `mise install`
 4. Install Determinate Nix; `direnv allow` in the projects whose flake you use
+5. Run `kitten quick-access-terminal` once, then bind "Quick access to kitty"
+   in System Settings → Keyboard → Keyboard Shortcuts → Services → General
 
 ## Day to day
 

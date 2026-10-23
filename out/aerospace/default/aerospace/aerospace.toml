@@ -152,6 +152,7 @@ gaps.outer.right =      8
     if.app-id = 'org.whispersystems.signal-desktop'
     run = 'move-node-to-workspace S'
 
+# Exact match: the quick-access terminal (net.kovidgoyal.kitty-quick-access) stays put.
 [[on-window-detected]]
     if.app-id = 'net.kovidgoyal.kitty'
     run = 'move-node-to-workspace T'

@@ -22,6 +22,8 @@ isn't running.
 | Z       | Telegram    | shares a workspace with Signal      |
 
 Any app without its own workspace floats over whatever workspace you're on.
+kitty's quick-access terminal stays out of AeroSpace entirely: it is an
+overlay panel on every Space, not a window on T.
 
 ## Everyday
 

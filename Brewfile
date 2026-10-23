@@ -150,6 +150,8 @@ cask "android-platform-tools"
 cask "battery"
 # Hack with Nerd Font icons; kitty, tmux and Neovim expect it
 cask "font-hack-nerd-font"
+# GPU-based terminal emulator
+cask "kitty"
 # i3-like tiling window manager
 cask "nikitabobko/tap/aerospace"
 # Modern and pretty fancy file manager for the terminal
