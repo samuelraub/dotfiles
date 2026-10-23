@@ -159,10 +159,6 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey -v
 bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
-bindkey "^[[1;3D" backward-word  # Alt + Left arrow
-bindkey "^[[1;3C" forward-word   # Alt + Right arrow
-# Stop word motions (and partial suggestion accepts) at path separators
-WORDCHARS=${WORDCHARS//\/}
 
 # case insensitive completion
 autoload -Uz compinit && compinit
@@ -170,6 +166,16 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 eval "$(zoxide init zsh)"
 eval "$(direnv hook zsh)"
+<% end %>
+
+bindkey "^[[1;3D" backward-word  # Alt + Left arrow
+bindkey "^[[1;3C" forward-word   # Alt + Right arrow
+# Stop word motions (and partial suggestion accepts) at path separators
+WORDCHARS=${WORDCHARS//\/}
+
+<% if v[:server] %>
+# so detached sessions (long backups) don't get forgotten
+[[ -z $TMUX ]] && tmux ls 2>/dev/null
 <% end %>
 
 # vim: set filetype=bash.eruby:

@@ -40,4 +40,14 @@ alias lg="lazygit"
 
 
 
+bindkey "^[[1;3D" backward-word  # Alt + Left arrow
+bindkey "^[[1;3C" forward-word   # Alt + Right arrow
+# Stop word motions (and partial suggestion accepts) at path separators
+WORDCHARS=${WORDCHARS//\/}
+
+
+# so detached sessions (long backups) don't get forgotten
+[[ -z $TMUX ]] && tmux ls 2>/dev/null
+
+
 # vim: set filetype=bash.eruby:
