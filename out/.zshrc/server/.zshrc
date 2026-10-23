@@ -47,7 +47,9 @@ WORDCHARS=${WORDCHARS//\/}
 
 
 # so detached sessions (long backups) don't get forgotten
-[[ -z $TMUX ]] && tmux ls 2>/dev/null
+if [[ -z $TMUX ]]; then
+  tmux ls 2>/dev/null || true
+fi
 
 
 # vim: set filetype=bash.eruby:
