@@ -21,7 +21,7 @@ isn't running.
 | T       | kitty       |                                     |
 | Z       | Telegram    | shares a workspace with Signal      |
 
-System Settings and Alfred Preferences float over whatever workspace you're on.
+Any app without its own workspace floats over whatever workspace you're on.
 
 ## Everyday
 
