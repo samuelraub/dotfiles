@@ -45,6 +45,7 @@ to normal mode right away.
 | letter       | send window to that app's workspace (Z → Signal/Telegram, P → the floating workspace) |
 | Tab          | move the whole workspace to the other screen                                          |
 | Shift + Tab  | move only the window to the other screen                                              |
+| `m`          | move window to the LG screen, fullscreen                                              |
 | `-` / `=`    | shrink / grow (stays in move mode, leave with Esc)                                    |
 | Space        | toggle floating / tiling                                                              |
 | Enter        | fullscreen                                                                            |
