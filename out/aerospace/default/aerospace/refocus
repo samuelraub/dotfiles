@@ -1,0 +1,13 @@
+#!/bin/sh
+# When a window closes, macOS may activate another app while AeroSpace keeps
+# focus on the old window; `workspace` on the same workspace then can't fix it.
+# Re-activate the app AeroSpace thinks is focused, but only on such a mismatch.
+
+# AeroSpace runs this with the bare launchd PATH.
+PATH=/opt/homebrew/bin:$PATH
+
+want=$(aerospace list-windows --focused --format '%{app-bundle-id}' 2>/dev/null)
+[ -n "$want" ] || exit 0
+front=$(lsappinfo info -only bundleid "$(lsappinfo front)" | cut -d '"' -f 4)
+
+[ "$want" = "$front" ] || osascript -e "tell application id \"$want\" to activate"

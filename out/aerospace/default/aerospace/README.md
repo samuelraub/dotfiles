@@ -6,7 +6,8 @@ working.
 ## Apps
 
 Each app has its own workspace. The key jumps there and launches the app if it
-isn't running.
+isn't running. If AeroSpace and macOS disagree about focus (e.g. after closing a
+window), `refocus` re-activates the app AeroSpace has focused.
 
 | Hyper + | App         | Notes                               |
 | ------- | ----------- | ----------------------------------- |
