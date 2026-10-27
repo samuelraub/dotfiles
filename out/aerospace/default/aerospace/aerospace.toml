@@ -38,17 +38,17 @@ gaps.outer.right =      8
 
 [mode.main.binding]
     # Jump to the app's workspace; launch the app if it isn't running.
-    cmd-alt-ctrl-shift-a = ['workspace A', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq thunderbird || open -a Thunderbird']
-    cmd-alt-ctrl-shift-b = ['workspace B', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq firefox || open -a Firefox']
-    cmd-alt-ctrl-shift-c = ['workspace C', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq Calendar || open -a Calendar']
-    cmd-alt-ctrl-shift-f = ['workspace F', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq Finder || open -a Finder']
-    cmd-alt-ctrl-shift-g = ['workspace G', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq "Google Chrome" || open -a "Google Chrome"']
+    cmd-alt-ctrl-shift-a = 'exec-and-forget ~/.config/aerospace/refocus A; pgrep -xq thunderbird || open -a Thunderbird'
+    cmd-alt-ctrl-shift-b = 'exec-and-forget ~/.config/aerospace/refocus B; pgrep -xq firefox || open -a Firefox'
+    cmd-alt-ctrl-shift-c = 'exec-and-forget ~/.config/aerospace/refocus C; pgrep -xq Calendar || open -a Calendar'
+    cmd-alt-ctrl-shift-f = 'exec-and-forget ~/.config/aerospace/refocus F; pgrep -xq Finder || open -a Finder'
+    cmd-alt-ctrl-shift-g = 'exec-and-forget ~/.config/aerospace/refocus G; pgrep -xq "Google Chrome" || open -a "Google Chrome"'
     # R holds floating apps; open -a brings the right one to the front.
     cmd-alt-ctrl-shift-r = 'exec-and-forget open -a Reminders'
     cmd-alt-ctrl-shift-p = 'exec-and-forget open -a 1Password'
     # S is shared; open -a focuses the named app, not the last-used one.
     cmd-alt-ctrl-shift-s = 'exec-and-forget open -a Signal'
-    cmd-alt-ctrl-shift-t = ['workspace T', 'exec-and-forget ~/.config/aerospace/refocus; pgrep -xq kitty || open -a kitty']
+    cmd-alt-ctrl-shift-t = 'exec-and-forget ~/.config/aerospace/refocus T; pgrep -xq kitty || open -a kitty'
     cmd-alt-ctrl-shift-z = 'exec-and-forget open -a Telegram'
 
     # Like vim-tmux-navigator, but for windows (wrapping); nav hands kitty's keys to tmux.

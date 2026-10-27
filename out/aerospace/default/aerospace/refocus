@@ -1,10 +1,16 @@
 #!/bin/sh
+# Usage: refocus <workspace>
 # When a window closes, macOS may activate another app while AeroSpace keeps
 # focus on the old window; `workspace` on the same workspace then can't fix it.
-# Re-activate the app AeroSpace thinks is focused, but only on such a mismatch.
+# Only check on that same-workspace jump: right after a real switch macOS lags
+# behind, and activating then raises the app's windows on other workspaces.
 
 # AeroSpace runs this with the bare launchd PATH.
 PATH=/opt/homebrew/bin:$PATH
+
+if [ "$(aerospace list-workspaces --focused)" != "$1" ]; then
+    exec aerospace workspace "$1"
+fi
 
 want=$(aerospace list-windows --focused --format '%{app-bundle-id}' 2>/dev/null)
 [ -n "$want" ] || exit 0
