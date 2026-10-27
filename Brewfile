@@ -112,6 +112,8 @@ brew "qt@5"
 brew "ripgrep"
 # Utility that provides fast incremental file transfer
 brew "rsync"
+# 7-Zip is a file archiver with a high compression ratio
+brew "sevenzip"
 # Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
 # OCR (Optical Character Recognition) engine
