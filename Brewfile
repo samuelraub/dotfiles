@@ -110,6 +110,8 @@ brew "qpdf"
 brew "qt@5"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Utility that provides fast incremental file transfer
+brew "rsync"
 # Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
 # OCR (Optical Character Recognition) engine
