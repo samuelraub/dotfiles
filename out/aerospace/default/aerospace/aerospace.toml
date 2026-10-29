@@ -21,7 +21,7 @@ automatically-unhide-macos-hidden-apps = false
 
 # One workspace per app, lettered like the old Alfred AppSwitcher hotkeys.
 # Signal and Telegram share S; Hyper+Z goes there too.
-persistent-workspaces = ["A", "B", "C", "F", "G", "R", "S", "T"]
+persistent-workspaces = ["A", "B", "C", "F", "G", "P", "S", "T"]
 
 on-mode-changed = []
 focus-follows-mouse.enabled = false
@@ -43,8 +43,7 @@ gaps.outer.right =      8
     cmd-alt-ctrl-shift-c = 'exec-and-forget ~/.config/aerospace/refocus C; pgrep -xq Calendar || open -a Calendar'
     cmd-alt-ctrl-shift-f = 'exec-and-forget ~/.config/aerospace/refocus F; pgrep -xq Finder || open -a Finder'
     cmd-alt-ctrl-shift-g = 'exec-and-forget ~/.config/aerospace/refocus G; pgrep -xq "Google Chrome" || open -a "Google Chrome"'
-    # R holds floating apps; open -a brings the right one to the front.
-    cmd-alt-ctrl-shift-r = 'exec-and-forget open -a Reminders'
+    # P is shared with Reminders and Koffan; open -a focuses Bitwarden itself.
     cmd-alt-ctrl-shift-p = 'exec-and-forget open -a Bitwarden'
     # S is shared; open -a focuses the named app, not the last-used one.
     cmd-alt-ctrl-shift-s = 'exec-and-forget open -a Signal'
@@ -96,8 +95,7 @@ gaps.outer.right =      8
     c = ['move-node-to-workspace --focus-follows-window C', 'mode main']
     f = ['move-node-to-workspace --focus-follows-window F', 'mode main']
     g = ['move-node-to-workspace --focus-follows-window G', 'mode main']
-    p = ['move-node-to-workspace --focus-follows-window R', 'mode main']
-    r = ['move-node-to-workspace --focus-follows-window R', 'mode main']
+    p = ['move-node-to-workspace --focus-follows-window P', 'mode main']
     s = ['move-node-to-workspace --focus-follows-window S', 'mode main']
     t = ['move-node-to-workspace --focus-follows-window T', 'mode main']
     z = ['move-node-to-workspace --focus-follows-window S', 'mode main']
@@ -130,11 +128,16 @@ gaps.outer.right =      8
 
 [[on-window-detected]]
     if.app-id = 'com.bitwarden.desktop'
-    run = ['layout floating', 'move-node-to-workspace R']
+    run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
     if.app-id = 'com.apple.reminders'
-    run = ['layout floating', 'move-node-to-workspace R']
+    run = 'move-node-to-workspace P'
+
+# Koffan, installed as a Chrome app
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome.app.mommgpibhihkkoojljmcgmjkmieaogfp'
+    run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
     if.app-id = 'org.whispersystems.signal-desktop'

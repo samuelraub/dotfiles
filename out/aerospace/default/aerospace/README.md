@@ -17,8 +17,7 @@ window), pressing the key again re-activates the app AeroSpace has focused
 | C       | Calendar    |                                     |
 | F       | Finder      |                                     |
 | G       | Chrome      |                                     |
-| P       | Bitwarden   | floating workspace (with Reminders) |
-| R       | Reminders   | floating workspace (with Bitwarden) |
+| P       | Bitwarden   | shares P with Reminders and Koffan  |
 | S       | Signal      | shares a workspace with Telegram    |
 | T       | kitty       |                                     |
 | Z       | Telegram    | shares a workspace with Signal      |
@@ -44,7 +43,7 @@ to normal mode right away.
 | ------------ | ------------------------------------------------------------------------------------- |
 | ←↓↑→         | move window                                                                           |
 | Shift + ←↓↑→ | join with neighbour (e.g. split the right half top–bottom)                            |
-| letter       | send window to that app's workspace (Z → Signal/Telegram, P → the floating workspace) |
+| letter       | send window to that app's workspace (Z → Signal/Telegram)                             |
 | Tab          | move the whole workspace to the other screen                                          |
 | Shift + Tab  | move only the window to the other screen                                              |
 | `m`          | move window to the LG screen, fullscreen                                              |
