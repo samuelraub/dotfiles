@@ -17,8 +17,8 @@ window), pressing the key again re-activates the app AeroSpace has focused
 | C       | Calendar    |                                     |
 | F       | Finder      |                                     |
 | G       | Chrome      |                                     |
-| P       | 1Password   | floating workspace (with Reminders) |
-| R       | Reminders   | floating workspace (with 1Password) |
+| P       | Bitwarden   | floating workspace (with Reminders) |
+| R       | Reminders   | floating workspace (with Bitwarden) |
 | S       | Signal      | shares a workspace with Telegram    |
 | T       | kitty       |                                     |
 | Z       | Telegram    | shares a workspace with Signal      |

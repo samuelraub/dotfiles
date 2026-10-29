@@ -45,7 +45,7 @@ gaps.outer.right =      8
     cmd-alt-ctrl-shift-g = 'exec-and-forget ~/.config/aerospace/refocus G; pgrep -xq "Google Chrome" || open -a "Google Chrome"'
     # R holds floating apps; open -a brings the right one to the front.
     cmd-alt-ctrl-shift-r = 'exec-and-forget open -a Reminders'
-    cmd-alt-ctrl-shift-p = 'exec-and-forget open -a 1Password'
+    cmd-alt-ctrl-shift-p = 'exec-and-forget open -a Bitwarden'
     # S is shared; open -a focuses the named app, not the last-used one.
     cmd-alt-ctrl-shift-s = 'exec-and-forget open -a Signal'
     cmd-alt-ctrl-shift-t = 'exec-and-forget ~/.config/aerospace/refocus T; pgrep -xq kitty || open -a kitty'
@@ -128,22 +128,9 @@ gaps.outer.right =      8
     if.app-id = 'com.google.Chrome'
     run = 'move-node-to-workspace G'
 
-# Only the main window ("<vault> — 1Password") lives on R. Prompts and the
-# credential picker float where they open; hidden on R they vanish or time out.
-# Quick Access shares the main window's title suffix, so it goes first.
 [[on-window-detected]]
-    if.app-id = 'com.1password.1password'
-    if.window-title-regex-substring = '^Schnellzugriff'
-    run = 'layout floating'
-
-[[on-window-detected]]
-    if.app-id = 'com.1password.1password'
-    if.window-title-regex-substring = ' — 1Password$'
+    if.app-id = 'com.bitwarden.desktop'
     run = ['layout floating', 'move-node-to-workspace R']
-
-[[on-window-detected]]
-    if.app-id = 'com.1password.1password'
-    run = 'layout floating'
 
 [[on-window-detected]]
     if.app-id = 'com.apple.reminders'

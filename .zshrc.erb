@@ -149,8 +149,8 @@ esac
 # psql
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
-# 1Password
-source /Users/samuelraub/.config/op/plugins.sh
+# Bitwarden's SSH agent; ssh-keygen -Y sign (commit signing) ignores IdentityAgent
+export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
 
 # Autosuggestions
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

@@ -146,8 +146,8 @@ brew "derailed/k9s/k9s", trusted: true
 brew "heroku/brew/heroku", trusted: true
 # Redmine CLI
 brew "mrjefflarry/redmine-cli/red-cli", trusted: true
-# Command-line interface for 1Password
-cask "1password-cli"
+# Desktop password and login vault
+cask "bitwarden"
 # Android SDK component
 cask "android-platform-tools"
 # App for managing battery charging. (Also installs a CLI on first use.)
@@ -162,3 +162,5 @@ cask "nikitabobko/tap/aerospace"
 brew "superfile"
 # OpenBSD freely-licensed SSH connectivity tools
 brew "openssh"
+# Secure and free password manager for all of your devices
+brew "bitwarden-cli"
