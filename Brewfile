@@ -162,5 +162,7 @@ cask "nikitabobko/tap/aerospace"
 brew "superfile"
 # OpenBSD freely-licensed SSH connectivity tools
 brew "openssh"
+# Port of pdftk in java
+brew "pdftk-java"
 # Secure and free password manager for all of your devices
 brew "bitwarden-cli"
