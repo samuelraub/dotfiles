@@ -164,5 +164,7 @@ brew "superfile"
 brew "openssh"
 # Port of pdftk in java
 brew "pdftk-java"
+# Executes a program periodically, showing output fullscreen
+brew "watch"
 # Secure and free password manager for all of your devices
 brew "bitwarden-cli"
