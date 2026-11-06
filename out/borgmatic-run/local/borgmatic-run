@@ -35,6 +35,17 @@ when() {
   else date -r $1 '+%F %H:%M'; fi
 }
 
+# Newest log line of kind $1 for $label that is newer than its last success,
+# as "<epoch> <message>" in REPLY. Older outcomes no longer matter.
+newest() {
+  local l t
+  l=$(grep -E "^[0-9-]+ [0-9:]+ $label: ($1)" "$LOG" 2>/dev/null | tail -1)
+  [[ -n $l ]] || return 1
+  t=$(date -j -f '%F %T' "${l[1,19]}" +%s)
+  (( t > ${last:-0} )) || return 1
+  REPLY="$t ${l#*: }"
+}
+
 # `bs`: one verdict per repository, built from the stamps, the run locks and
 # the log only - borg itself can't be asked while a run holds the repo lock.
 status_report() {
@@ -54,7 +65,7 @@ status_report() {
     tint=(green $'\e[32m' yellow $'\e[33m' red $'\e[31m')
   fi
 
-  local now=$(date +%s) bad=0 label last lock pid started verdict tone line ts msg
+  local now=$(date +%s) bad=0 label last lock pid started verdict tone
   local -a detail running
   for label in $REPOS; do
     last=""
@@ -62,13 +73,6 @@ status_report() {
     lock="$STATE/borgmatic-run-$label.lock"
     pid=""
     [[ -f "$lock/pid" ]] && pid=$(<"$lock/pid")
-
-    line=$(grep -E "^[0-9-]+ [0-9:]+ $label: (run finished ok|borgmatic exited|not reachable)" "$LOG" 2>/dev/null | tail -1)
-    ts="" msg=""
-    if [[ -n $line ]]; then
-      ts=$(date -j -f '%F %T' "${line[1,19]}" +%s)
-      msg=${line#*: }
-    fi
 
     detail=()
     [[ -n $last ]] && detail+=("last success $(when $last) ($(ago $(( now - last ))) ago)")
@@ -79,9 +83,9 @@ status_report() {
       detail=("since $(date -r $started +%H:%M) ($(ago $(( now - started ))))" $detail)
       running+=($label)
     else
-      if [[ $msg == "borgmatic exited "* ]]; then
+      if newest 'borgmatic exited'; then
         verdict=failed tone=red
-        detail=("$(when $ts) (exit ${msg##* })" $detail)
+        detail=("at $(when ${REPLY%% *}) (exit ${REPLY##* })" $detail)
       elif [[ -z $last ]]; then
         verdict=never tone=red
       elif (( now - last >= STALE_AFTER )); then
@@ -89,7 +93,7 @@ status_report() {
       else
         verdict=ok tone=green
       fi
-      [[ $msg == "not reachable"* ]] && (( ts > ${last:-0} )) && detail+=("not reachable $(when $ts)")
+      newest 'not reachable' && detail+=("not reachable $(when ${REPLY%% *})")
       [[ $label == elements && ! -d "$LOCATION[elements]" ]] && detail+=("drive not mounted")
       [[ $tone != green ]] && bad=1
     fi
@@ -107,8 +111,10 @@ status_report() {
 
   echo '--- recent log ---'
   if [[ -f $LOG ]]; then
-    # throttled runs only add noise; keep a run's start line if it did something
-    awk '/last success [0-9]+s ago - skipping$/ { next }
+    # only our own timestamped lines (bb tees borgmatic's output in too), minus
+    # throttled runs; keep a run's start line if it did something
+    awk '!/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] / { next }
+         /last success [0-9]+s ago - skipping$/ { next }
          /--- run start ---$/ { start = $0; next }
          { if (start != "") print start; start = ""; print }' "$LOG" | tail -5
   else

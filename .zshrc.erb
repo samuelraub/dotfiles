@@ -104,7 +104,7 @@ alias bb="~/.local/bin/borgmatic-run --force"
 alias bs="~/.local/bin/borgmatic-run --status"
 
 # warn on shell start if a backup failed or has gone stale
-~/.local/bin/borgmatic-run --status --warn
+if [[ -x ~/.local/bin/borgmatic-run ]]; then ~/.local/bin/borgmatic-run --status --warn; fi
 <% end %>
 
 <% if v[:local] %>
