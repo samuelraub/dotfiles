@@ -100,41 +100,11 @@ bi() {
 # run the home backup now, bypassing the 12h throttle
 alias bb="~/.local/bin/borgmatic-run --force"
 
-# backup status: when it last succeeded, recent log, latest archives
-bs() {
-  local label stamp secs
-  for label in elements storagebox; do
-    stamp=~/.local/state/borgmatic-last-success-$label
-    if [[ -f $stamp ]]; then
-      secs=$(( $(date +%s) - $(<$stamp) ))
-      printf '%-11s last success: %s  (%dh %dm ago)\n' $label \
-        "$(date -r "$(<$stamp)" '+%F %T')" $((secs/3600)) $((secs%3600/60))
-    else
-      printf '%-11s last success: never\n' $label
-    fi
-  done
-  echo '--- recent log ---'
-  tail -5 ~/Library/Logs/borgmatic.log 2>/dev/null || echo '(no log yet)'
-  echo '--- archives ---'
-  for label in elements storagebox; do
-    # the config's retries would sit out a busy repo for close to an hour
-    borgmatic --retries 0 repo-list --repository $label --last 3 2>/dev/null || echo "$label: unavailable (offline or busy)"
-  done
-}
+# backup status: verdict per repository, recent log; -a adds latest archives
+alias bs="~/.local/bin/borgmatic-run --status"
 
-# warn on shell start if the backup has gone stale (daily cadence, so 3d = wrong)
-() {
-  local label stamp days
-  for label in elements storagebox; do
-    stamp=~/.local/state/borgmatic-last-success-$label
-    if [[ ! -f $stamp ]]; then
-      print -P "%F{yellow}⚠ no successful $label backup yet — run bb%f"
-    else
-      days=$(( ( $(date +%s) - $(<$stamp) ) / 86400 ))
-      (( days >= 3 )) && print -P "%F{yellow}⚠ $label backup ${days}d stale — run bb%f"
-    fi
-  done
-}
+# warn on shell start if a backup failed or has gone stale
+~/.local/bin/borgmatic-run --status --warn
 <% end %>
 
 <% if v[:local] %>

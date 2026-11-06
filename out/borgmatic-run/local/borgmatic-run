@@ -3,6 +3,7 @@
 # its own, so the drive being unplugged doesn't hold back the storage box.
 # Triggers: launchd StartCalendarInterval (13:00), StartOnMount, RunAtLoad.
 # The 12h throttle keeps the extra triggers cheap; --force bypasses it.
+# --status [-a] [--warn] reports instead of running (`bs`, shell start).
 
 # launchd hands us a minimal PATH (/usr/bin:/bin:/usr/sbin:/sbin). borgmatic
 # shells out to `borg` by name, so Homebrew's bin must be on PATH or the job
@@ -17,7 +18,123 @@ typeset -A LOCATION=(
 )
 STATE="$HOME/.local/state"
 MIN_INTERVAL=$(( 12 * 3600 ))
+STALE_AFTER=$(( 3 * 86400 ))   # daily cadence, but the Mac isn't always on
+LOG="$HOME/Library/Logs/borgmatic.log"
 mkdir -p "$STATE"
+
+ago() {
+  local s=$1
+  if (( s < 3600 )); then echo "$(( s / 60 ))m"
+  elif (( s < 86400 )); then echo "$(( s / 3600 ))h $(( s % 3600 / 60 ))m"
+  else echo "$(( s / 86400 ))d $(( s % 86400 / 3600 ))h"; fi
+}
+when() {
+  local day=$(date -r $1 +%F)
+  if [[ $day == $(date +%F) ]]; then date -r $1 '+%H:%M today'
+  elif [[ $day == $(date -v-1d +%F) ]]; then date -r $1 '+yesterday %H:%M'
+  else date -r $1 '+%F %H:%M'; fi
+}
+
+# `bs`: one verdict per repository, built from the stamps, the run locks and
+# the log only - borg itself can't be asked while a run holds the repo lock.
+status_report() {
+  local warn=0 archives=0 arg
+  for arg; do
+    case $arg in
+      --warn) warn=1 ;;
+      -a|--archives) archives=1 ;;
+      *) echo "usage: borgmatic-run [--force | --status [-a] [--warn]]" >&2; return 2 ;;
+    esac
+  done
+
+  local off=""
+  local -A tint=(green "" yellow "" red "")
+  if [[ -t 1 ]]; then
+    off=$'\e[0m'
+    tint=(green $'\e[32m' yellow $'\e[33m' red $'\e[31m')
+  fi
+
+  local now=$(date +%s) bad=0 label last lock pid started verdict tone line ts msg
+  local -a detail running
+  for label in $REPOS; do
+    last=""
+    [[ -f "$STATE/borgmatic-last-success-$label" ]] && last=$(<"$STATE/borgmatic-last-success-$label")
+    lock="$STATE/borgmatic-run-$label.lock"
+    pid=""
+    [[ -f "$lock/pid" ]] && pid=$(<"$lock/pid")
+
+    line=$(grep -E "^[0-9-]+ [0-9:]+ $label: (run finished ok|borgmatic exited|not reachable)" "$LOG" 2>/dev/null | tail -1)
+    ts="" msg=""
+    if [[ -n $line ]]; then
+      ts=$(date -j -f '%F %T' "${line[1,19]}" +%s)
+      msg=${line#*: }
+    fi
+
+    detail=()
+    [[ -n $last ]] && detail+=("last success $(when $last) ($(ago $(( now - last ))) ago)")
+
+    if [[ -n $pid ]] && kill -0 $pid 2>/dev/null; then
+      started=$(stat -f %m "$lock")
+      verdict=running tone=yellow
+      detail=("since $(date -r $started +%H:%M) ($(ago $(( now - started ))))" $detail)
+      running+=($label)
+    else
+      if [[ $msg == "borgmatic exited "* ]]; then
+        verdict=failed tone=red
+        detail=("$(when $ts) (exit ${msg##* })" $detail)
+      elif [[ -z $last ]]; then
+        verdict=never tone=red
+      elif (( now - last >= STALE_AFTER )); then
+        verdict="stale $(( (now - last) / 86400 ))d" tone=yellow
+      else
+        verdict=ok tone=green
+      fi
+      [[ $msg == "not reachable"* ]] && (( ts > ${last:-0} )) && detail+=("not reachable $(when $ts)")
+      [[ $label == elements && ! -d "$LOCATION[elements]" ]] && detail+=("drive not mounted")
+      [[ $tone != green ]] && bad=1
+    fi
+
+    if (( warn )); then
+      case $verdict in
+        never) print -r -- "${tint[yellow]}⚠ no successful $label backup yet — run bb$off" ;;
+        failed|stale*) print -r -- "${tint[yellow]}⚠ $label backup $verdict · $detail[1] — run bb$off" ;;
+      esac
+      continue
+    fi
+    printf '%-11s %s%-9s%s  %s\n' $label "$tint[$tone]" "$verdict" "$off" "${(j: · :)detail}"
+  done
+  (( warn )) && return 0   # runs at shell start; keep $? clean
+
+  echo '--- recent log ---'
+  if [[ -f $LOG ]]; then
+    # throttled runs only add noise; keep a run's start line if it did something
+    awk '/last success [0-9]+s ago - skipping$/ { next }
+         /--- run start ---$/ { start = $0; next }
+         { if (start != "") print start; start = ""; print }' "$LOG" | tail -5
+  else
+    echo '(no log yet)'
+  fi
+
+  if (( archives )); then
+    echo '--- archives ---'
+    for label in $REPOS; do
+      if (( ${running[(Ie)$label]} )); then
+        echo "$label: backup running - repository locked"
+        continue
+      fi
+      # the config's retries would sit out a busy repo for close to an hour
+      /opt/homebrew/bin/borgmatic --retries 0 repo-list --repository $label --last 3 2>/dev/null ||
+        echo "$label: unavailable (offline or busy)"
+    done
+  fi
+  return $bad
+}
+
+if [[ "$1" == "--status" ]]; then
+  shift
+  status_report "$@"
+  exit $?
+fi
 
 # Capture this BEFORE the tee redirect below, because once stdout is a pipe
 # `[[ -t 1 ]]` is false and the verbosity choice further down would break.
@@ -27,7 +144,6 @@ INTERACTIVE=0
 # launchd already redirects our stdout into this log. Interactive runs (`bb`)
 # would otherwise leave no trace, making `bs`'s log tail disagree with its own
 # "last success" line - so tee them in too.
-LOG="$HOME/Library/Logs/borgmatic.log"
 if (( INTERACTIVE )); then
   exec > >(tee -a "$LOG") 2>&1
 fi
