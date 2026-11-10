@@ -93,5 +93,11 @@ files:
       - name: default
         links:
           - .gemrc
+  - name: firefox-user.js
+    compile: false
+    variants:
+      - name: local
+        links:
+          - Library/Application Support/Firefox/Profiles/meyig997.default-release/user.js
 secrets:
   - .zshrc.local.secrets
