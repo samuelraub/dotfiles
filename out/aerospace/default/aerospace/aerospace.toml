@@ -39,7 +39,8 @@ gaps.outer.right =      8
 [mode.main.binding]
     # Jump to the app's workspace; launch the app if it isn't running.
     cmd-alt-ctrl-shift-a = 'exec-and-forget ~/.config/aerospace/refocus A; pgrep -xq thunderbird || open -a Thunderbird'
-    cmd-alt-ctrl-shift-b = 'exec-and-forget ~/.config/aerospace/refocus B; pgrep -xq firefox || open -a Firefox'
+    # Hyper includes Option, which Firefox reads at launch as "open in Troubleshoot Mode".
+    cmd-alt-ctrl-shift-b = 'exec-and-forget ~/.config/aerospace/refocus B; pgrep -xq firefox || open --env MOZ_DISABLE_SAFE_MODE_KEY=1 -a Firefox'
     cmd-alt-ctrl-shift-c = 'exec-and-forget ~/.config/aerospace/refocus C; pgrep -xq Calendar || open -a Calendar'
     cmd-alt-ctrl-shift-f = 'exec-and-forget ~/.config/aerospace/refocus F; pgrep -xq Finder || open -a Finder'
     cmd-alt-ctrl-shift-g = 'exec-and-forget ~/.config/aerospace/refocus G; pgrep -xq "Google Chrome" || open -a "Google Chrome"'
